@@ -1,5 +1,4 @@
-package veterinariaapp.mapping;
-
+package veterinariaapp.entity;
 //OBJETO PRINCIPAL
 public class Usuario {
     // Clase interna UsuarioCredentials
@@ -9,7 +8,7 @@ public class Usuario {
 
         // Getters y setters
         // Obtener y Modificar email o contraseña
-        
+
         public String getEmail() {
             return email;
         }
