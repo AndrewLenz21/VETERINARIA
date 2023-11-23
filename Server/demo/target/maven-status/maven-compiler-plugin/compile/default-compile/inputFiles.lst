@@ -1,3 +1,7 @@
-D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entity\Usuario.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repository\UsuarioRepository.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\service\UsuarioService.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entity\LoginEntity.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controller\LoginController.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\App.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controller\UsuarioController.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entity\UsuarioEntity.java

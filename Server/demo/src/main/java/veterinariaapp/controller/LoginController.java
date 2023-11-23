@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
-import veterinariaapp.entity.Usuario;
+import veterinariaapp.entity.LoginEntity;
 // otras importaciones
 @RestController
 public class LoginController {
@@ -25,7 +25,7 @@ public class LoginController {
 
     //POST function 'login'
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Usuario.UsuarioCredentials credentials) {
+    public ResponseEntity<?> login(@RequestBody LoginEntity.UsuarioCredentials credentials) {
         //La llamada HTTP enviara dos variables (usuario y contraseña) que van a ser evaluados para una autenticacion
         String expectedEmail = "example@gmail.com";
         String expectedPassword = "12345";
