@@ -19,10 +19,10 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
 
     //SELECT
     @Transactional
-    @Query(nativeQuery = true, value = "CALL sp_ricerca_tabla_prueba(:_id, :_name, :_email)")
+    @Query(nativeQuery = true, value = "CALL sp_ricerca_tabla_prueba(:_id, :_nombre, :_email)")
     List<UsuarioEntity> sp_ricerca_tabla_prueba(
         @Param("_id") Integer idUser,
-        @Param("_name") String nameUser,
+        @Param("_nombre") String nameUser,
         @Param("_email") String emailUser
     );
 
@@ -38,8 +38,8 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
     //UPDATE
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "CALL sp_ricerca_tabla_prueba(:_id, :_nombre, :_email)")
-    List<UsuarioEntity> sp_actualizar_persona(
+    @Query(nativeQuery = true, value = "CALL sp_actualizar_persona(:_id, :_nombre, :_email)")
+    void sp_actualizar_persona(
         @Param("_id") Integer idUser,
         @Param("_nombre") String nameUser,
         @Param("_email") String emailUser

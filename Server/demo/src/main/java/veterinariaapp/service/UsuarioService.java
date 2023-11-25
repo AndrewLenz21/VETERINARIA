@@ -19,8 +19,14 @@ public class UsuarioService {
 
     public List<UsuarioEntity> ricerca_tabla_prueba_1(Integer id, String name, String email){
         List<UsuarioEntity> result = new ArrayList<>();
-        result = usuarioRepository.sp_ricerca_tabla_prueba(id,name, email);
-        return result;
+        try 
+        {
+            result = usuarioRepository.sp_ricerca_tabla_prueba(id,name, email);
+            return result;
+        } catch (Exception ex)
+        {
+            throw ex;
+        }
     }
 
     public List<UsuarioEntity> ricerca_tabla_prueba_2(LoginEntity.FiltroUsuario filtro){
@@ -47,6 +53,7 @@ public class UsuarioService {
     public String actualizar_persona(LoginEntity.FiltroUsuario filtro){
         String message = "";
         try {
+            System.out.println(filtro);
             usuarioRepository.sp_actualizar_persona(filtro.getId(), filtro.getName(), filtro.getEmail());
             message = "Persona actualizada con exito";
         } catch (Exception e) {

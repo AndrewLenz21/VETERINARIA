@@ -66,8 +66,8 @@ public class UsuarioController {
     }
 
     //FUNCION DE ELIMINAR
-    @PostMapping("/eliminar")
-    public ResponseEntity<String> actualizar_persona(@RequestParam(required=false, name = "id") Integer id) {
+    @GetMapping("/eliminar")
+    public ResponseEntity<String> eliminar_persona(@RequestParam(required=false, name = "id") Integer id) {
         String result = usuarioService.eliminar_persona(id);
         return ResponseEntity.ok(result);
     }

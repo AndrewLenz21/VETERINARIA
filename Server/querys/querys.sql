@@ -1,7 +1,6 @@
 USE freedb_VeterinariaAPP;
 
 DELIMITER //
-
 CREATE PROCEDURE sp_actualizar_persona
 (
     IN _id INT,                  -- Parámetro para el ID (usado en la cláusula WHERE)
@@ -13,9 +12,21 @@ BEGIN
     SET nombre = _nombre, email = _email
     WHERE id = _id;              -- La actualización se aplica donde el id coincide con el parámetro _id
 END;
-
 //
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE sp_eliminar_persona
+(
+    IN _id INT  -- Parámetro para el ID (usado en la cláusula WHERE para identificar la fila a eliminar)
+)
+BEGIN
+    DELETE FROM TABLA_PRUEBA
+    WHERE id = _id;  -- Elimina la fila donde el id coincide con el parámetro _id
+END;
+//
+DELIMITER ;
+
 
 
 SELECT * FROM TABLA_PRUEBA;
@@ -24,7 +35,6 @@ CALL sp_insertar_persona('Cristian', 'cristian@outlook.com');
 -- DROP PROCEDURE IF EXISTS sp_ricerca_tabla_prueba;
 
 DELIMITER //
-
 CREATE PROCEDURE sp_ricerca_tabla_prueba(
     IN _id INT, 
     IN _name VARCHAR(60), 
