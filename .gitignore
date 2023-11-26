@@ -1,2 +1,2 @@
 Server/demo/.env
-Server/demo/target
+Server/demo/target/main/resources/application.properties

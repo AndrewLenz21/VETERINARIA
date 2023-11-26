@@ -1,10 +1,11 @@
 package veterinariaapp.controller;
-
+import java.util.Map;
+import java.util.HashMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import veterinariaapp.entity.LoginEntity;
 // otras importaciones
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class LoginController {
 
     @GetMapping("/hello")
@@ -33,12 +35,14 @@ public class LoginController {
         boolean authenticated = expectedEmail.equals(credentials.getEmail())
                                 && expectedPassword.equals(credentials.getPassword());
 
+                                
+        Map<String, String> response = new HashMap<>();
         if (authenticated) {
-            // Si la autenticación es exitosa
-            return ResponseEntity.ok("Login exitoso");
+            response.put("message", "Login exitoso");
+            return ResponseEntity.ok(response);
         } else {
-            // Si la autenticación falla
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Datos de login incorrectos");
+            response.put("message", "Datos de login incorrectos");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 
