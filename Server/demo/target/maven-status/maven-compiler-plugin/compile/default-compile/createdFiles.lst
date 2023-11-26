@@ -1,3 +1,4 @@
+veterinariaapp\config\CorsConfig.class
 veterinariaapp\service\UsuarioService.class
 veterinariaapp\entity\UsuarioEntity.class
 veterinariaapp\controller\UsuarioController.class
@@ -5,5 +6,6 @@ veterinariaapp\entity\LoginEntity$UsuarioCredentials.class
 veterinariaapp\entity\LoginEntity$FiltroUsuario.class
 veterinariaapp\entity\LoginEntity.class
 veterinariaapp\App.class
+veterinariaapp\config\CorsConfig$1.class
 veterinariaapp\repository\UsuarioRepository.class
 veterinariaapp\controller\LoginController.class

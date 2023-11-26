@@ -1,25 +1,43 @@
 "use client";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import appveterinariaserver from "@/api/appveterinariaserver";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const page = (props: Props) => {
+  const router = useRouter();
+  //Definicion de variables con useState
   const [usuario, setUsuario] = useState('');
   const [password, setPassword] = useState('');
 
+  //Obtencion del token "identifier" para verificar una sesion
+  useEffect(() => {
+    const identifier = localStorage.getItem('identifier');
+    console.log(identifier);
+    //Si existe una sesion, entonces andar directamente al dashboard
+    if (identifier && /^[0-9]{8}$/.test(identifier))  {
+        router.push('/dashboard');
+    }
+    //Si no existe, quedarse en el Login
+  }, []);
+ 
   const handleSignIn = async () => {
     try {
-      const credentials = {
-        email: usuario,
-        password: password
-      }
+      const credentials = {email: usuario,password: password}
       // Construye la URL con los parámetros
       var message = `Nuestro usuario tiene credenciales: ${usuario} y ${password}`
       console.log(message);
       const path = `login`;
       const data = await appveterinariaserver.post(path, credentials);
+      
       console.log('Respuesta del servidor:', data);
+
+      //Con la respuesta del servidor, asignamos el identifier
+      if(data.isAuthenticated == true) {
+        localStorage.setItem('identifier', data.identifier);
+        router.push('/dashboard');
+      }
     } catch (error) {
       console.error('Error al realizar la solicitud:', error);
     }

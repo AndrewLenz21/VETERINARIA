@@ -31,18 +31,23 @@ public class LoginController {
         //La llamada HTTP enviara dos variables (usuario y contraseña) que van a ser evaluados para una autenticacion
         String expectedEmail = "example@gmail.com";
         String expectedPassword = "12345";
+        String identificativoUsuario = "88888888";
 
         boolean authenticated = expectedEmail.equals(credentials.getEmail())
                                 && expectedPassword.equals(credentials.getPassword());
 
-                                
-        Map<String, String> response = new HashMap<>();
+        //mapear resultados
+        Map<String, Object> response = new HashMap<>();
         if (authenticated) {
-            response.put("message", "Login exitoso");
+            response.put("isAuthenticated", true);
+            response.put("credentials", credentials);
+            response.put("identifier", identificativoUsuario);
             return ResponseEntity.ok(response);
         } else {
-            response.put("message", "Datos de login incorrectos");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            response.put("isAuthenticated", false);
+            response.put("credentials", credentials);
+            response.put("identifier", "");
+            return ResponseEntity.ok(response);
         }
     }
 
