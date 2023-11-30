@@ -1,4 +1,4 @@
-package veterinariaapp.entity;
+package veterinariaapp.entities.LoginEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //OBJETO PRINCIPAL
 @Entity
-public class LoginEntity {
+public class UsuariopruebaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

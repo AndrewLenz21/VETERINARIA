@@ -1,4 +1,4 @@
-package veterinariaapp.service;
+package veterinariaapp.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,9 +8,9 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
-import veterinariaapp.repository.UsuarioRepository;
-import veterinariaapp.entity.LoginEntity;
-import veterinariaapp.entity.UsuarioEntity;
+import veterinariaapp.entities.UsuarioEntity;
+import veterinariaapp.entities.LoginEntity.UsuariopruebaEntity;
+import veterinariaapp.repositories.UsuarioRepository;
 
 @Service
 @Transactional
@@ -29,7 +29,7 @@ public class UsuarioService {
         }
     }
 
-    public List<UsuarioEntity> ricerca_tabla_prueba_2(LoginEntity.FiltroUsuario filtro){
+    public List<UsuarioEntity> ricerca_tabla_prueba_2(UsuariopruebaEntity.FiltroUsuario filtro){
         List<UsuarioEntity> result = new ArrayList<>();
         //int id = filtro.getId();
         //String name = filtro.getName();
@@ -50,7 +50,7 @@ public class UsuarioService {
         }
     }
 
-    public String actualizar_persona(LoginEntity.FiltroUsuario filtro){
+    public String actualizar_persona(UsuariopruebaEntity.FiltroUsuario filtro){
         String message = "";
         try {
             System.out.println(filtro);

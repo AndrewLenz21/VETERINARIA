@@ -1,4 +1,4 @@
-package veterinariaapp.controller;
+package veterinariaapp.controllers;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import veterinariaapp.entity.LoginEntity;
-import veterinariaapp.entity.UsuarioEntity;
-import veterinariaapp.service.UsuarioService;
+import veterinariaapp.entities.UsuarioEntity;
+import veterinariaapp.entities.LoginEntity.UsuariopruebaEntity;
+import veterinariaapp.services.UsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
@@ -34,7 +34,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/ricerca2")
-    public ResponseEntity<List<UsuarioEntity>> ricercaTabellaPrueba2Post(@RequestBody LoginEntity.FiltroUsuario filtro) {
+    public ResponseEntity<List<UsuarioEntity>> ricercaTabellaPrueba2Post(@RequestBody UsuariopruebaEntity.FiltroUsuario filtro) {
         List<UsuarioEntity> result = usuarioService.ricerca_tabla_prueba_2(filtro);
         return ResponseEntity.ok(result);
     }
@@ -60,7 +60,7 @@ public class UsuarioController {
 
     //FUNCION DE ACTUALIZAR
     @PostMapping("/actualizar")
-    public ResponseEntity<String> actualizar_persona(@RequestBody LoginEntity.FiltroUsuario filtro) {
+    public ResponseEntity<String> actualizar_persona(@RequestBody UsuariopruebaEntity.FiltroUsuario filtro) {
         String result = usuarioService.actualizar_persona(filtro);
         return ResponseEntity.ok(result);
     }

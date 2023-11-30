@@ -1,4 +1,4 @@
-package veterinariaapp.entity;
+package veterinariaapp.entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 

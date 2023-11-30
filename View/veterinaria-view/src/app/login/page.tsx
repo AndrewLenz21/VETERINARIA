@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 type Props = {};
 
 const page = (props: Props) => {
+
   const router = useRouter();
   //Definicion de variables con useState
   const [usuario, setUsuario] = useState('');
@@ -17,7 +18,7 @@ const page = (props: Props) => {
     console.log(identifier);
     //Si existe una sesion, entonces andar directamente al dashboard
     if (identifier && /^[0-9]{8}$/.test(identifier))  {
-        router.push('/dashboard');
+        //router.push('/dashboard');
     }
     //Si no existe, quedarse en el Login
   }, []);
@@ -28,15 +29,15 @@ const page = (props: Props) => {
       // Construye la URL con los parámetros
       var message = `Nuestro usuario tiene credenciales: ${usuario} y ${password}`
       console.log(message);
-      const path = `login`;
-      const data = await appveterinariaserver.post(path, credentials);
+ 
+      const data = await appveterinariaserver.post(`login`, credentials);
       
       console.log('Respuesta del servidor:', data);
 
       //Con la respuesta del servidor, asignamos el identifier
       if(data.isAuthenticated == true) {
         localStorage.setItem('identifier', data.identifier);
-        router.push('/dashboard');
+        //router.push('/dashboard');
       }
     } catch (error) {
       console.error('Error al realizar la solicitud:', error);
@@ -51,7 +52,7 @@ const page = (props: Props) => {
           <input
             className="w-full rounded-md border border-[#E9EDF4] py-3 px-5 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none"
             type="text"
-            placeholder="Usuario"
+            placeholder="Credencial"
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
           />
@@ -63,7 +64,7 @@ const page = (props: Props) => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
-            className="bg-blue-700 text-white rounded-md py-3 w-36 max-w-[400px] mx-auto hover:bg-blue-500 ease-in-out duration-300"
+            className="bg-blue-700 text-white rounded-md py-3 w-36 mx-auto hover:bg-blue-500 ease-in-out duration-300"
             onClick={handleSignIn}
           >
             Sign In

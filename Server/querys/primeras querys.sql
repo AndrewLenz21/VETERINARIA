@@ -50,9 +50,9 @@ END //
 
 
 -- DROP PROCEDURE IF EXISTS sp_ricerca_tabla_prueba;
-
+USE freedb_VeterinariaAPP;
 DELIMITER //
-CREATE PROCEDURE sp_ricerca_tabla_prueba(
+CREATE PROCEDURE sp_busqueda_tabla_prueba(
     IN _id INT, 
     IN _nombre VARCHAR(60), 
     IN _email VARCHAR(60) -- Agrega este nuevo parámetro para el filtro de email
