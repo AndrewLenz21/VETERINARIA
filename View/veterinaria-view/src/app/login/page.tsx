@@ -15,10 +15,10 @@ const page = (props: Props) => {
   //Obtencion del token "identifier" para verificar una sesion
   useEffect(() => {
     const identifier = localStorage.getItem('identifier');
-    console.log(identifier);
+    //console.log(identifier);
     //Si existe una sesion, entonces andar directamente al dashboard
     if (identifier && /^[0-9]{8}$/.test(identifier))  {
-        //router.push('/dashboard');
+        router.push('/dashboard');
     }
     //Si no existe, quedarse en el Login
   }, []);
@@ -37,7 +37,7 @@ const page = (props: Props) => {
       //Con la respuesta del servidor, asignamos el identifier
       if(data.isAuthenticated == true) {
         localStorage.setItem('identifier', data.identifier);
-        //router.push('/dashboard');
+        router.push('/dashboard');
       }
     } catch (error) {
       console.error('Error al realizar la solicitud:', error);

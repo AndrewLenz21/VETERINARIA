@@ -4,9 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,12 +25,6 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
-
-    @GetMapping("/hello")
-    public String hello() {
-        System.out.println("Hello World!");
-        return "Hello World!";
-    }
 
     // POST function 'login'
     @PostMapping("/login")

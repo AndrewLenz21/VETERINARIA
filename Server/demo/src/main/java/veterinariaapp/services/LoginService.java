@@ -41,8 +41,8 @@ public class LoginService {
     }
 
     public ObtenerAutenticadorEntity obtener_autenticador(Integer id) {
-        List<ObtenerAutenticadorEntity> list_result = new ArrayList<>();
-        ObtenerAutenticadorEntity result = new ObtenerAutenticadorEntity();
+        List<ObtenerAutenticadorEntity> list_result = new ArrayList<>(); // lista de resultados
+        ObtenerAutenticadorEntity result = new ObtenerAutenticadorEntity(); // obtener el resultado
         try {
             // Por fuerza obtiene solo un valor porque es la primary key
             list_result = autenticador.sp_obtener_autenticador(id);

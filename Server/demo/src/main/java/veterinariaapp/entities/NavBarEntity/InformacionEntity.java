@@ -1,4 +1,4 @@
-package veterinariaapp.entities.LoginEntity;
+package veterinariaapp.entities.NavBarEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,18 +10,18 @@ import javax.persistence.GenerationType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class AutenticadorEntity {
-
+public class InformacionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Integer id;
+    private Integer cod_tipo_usuario;
     private String nombres;
     private String apellidos;
+    private String autenticador;
+    private String desc_tipo_usuario;
     private String email;
-    private String password;
 
-    // GETTERS SETTERS
     // ID
     public Integer getid() {
         return id;
@@ -29,6 +29,15 @@ public class AutenticadorEntity {
 
     public void setid(Integer id) {
         this.id = id;
+    }
+
+    // COD_TIPO_USUARIO
+    public Integer getcod_tipo_usuario() {
+        return cod_tipo_usuario;
+    }
+
+    public void setcod_tipo_usuario(Integer cod_tipo_usuario) {
+        this.cod_tipo_usuario = cod_tipo_usuario;
     }
 
     // NOMBRES
@@ -49,6 +58,24 @@ public class AutenticadorEntity {
         this.apellidos = apellidos;
     }
 
+    // APELLIDOS
+    public String getautenticador() {
+        return autenticador;
+    }
+
+    public void setautenticador(String autenticador) {
+        this.autenticador = autenticador;
+    }
+
+    // DESC_TIPO_USUARIO
+    public String getdesc_tipo_usuario() {
+        return desc_tipo_usuario;
+    }
+
+    public void setdesc_tipo_usuario(String desc_tipo_usuario) {
+        this.desc_tipo_usuario = desc_tipo_usuario;
+    }
+
     // EMAIL
     public String getemail() {
         return email;
@@ -56,14 +83,5 @@ public class AutenticadorEntity {
 
     public void setemail(String email) {
         this.email = email;
-    }
-
-    // PASSWORD
-    public String getpassword() {
-        return password;
-    }
-
-    public void setpassword(String password) {
-        this.password = password;
     }
 }
