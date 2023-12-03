@@ -18,7 +18,6 @@ const page = (props: Props) => {
   const [codTipoUsuario, setCodTipoUsuario] = useState(0);
 
   const [currentFunction, setCurrentFunction] = useState(1);
-
   const handleCodTipoUsuarioChange = (codTipoUsuario: number) => {
     setCodTipoUsuario(codTipoUsuario);
   };
@@ -35,7 +34,7 @@ const page = (props: Props) => {
           />
         );
       case 2:
-        return <Pacientes />;
+        return <Pacientes autenticador={identificador}/>;
       case 3:
         return <AgendarCita />;
       case 4:

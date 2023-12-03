@@ -16,9 +16,7 @@ const FunctionsPage: React.FC<Props> = ({
   onFunctionSelect,
   codTipoUsuario,
 }) => {
-  const [functionsData, setFunctionsData] = useState<UsuarioFuncionesEntity[]>(
-    []
-  );
+  const [functionsData, setFunctionsData] = useState<UsuarioFuncionesEntity[]>([]);
 
   //CAMBIOS EXTERNOS (codTipoUsuario)
   useEffect(() => {

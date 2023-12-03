@@ -12,7 +12,7 @@ import veterinariaapp.entities.FunctionsPageEntity.UsuarioFuncionesEntity;
 
 @Repository
 public interface ObtenerFunciones extends JpaRepository<UsuarioFuncionesEntity, Integer> {
-    // CREDENCIALES
+    // OBTENER FUNCIONES
     @Transactional
     @Query(nativeQuery = true, value = "CALL sp_obtener_funciones_usuario(:_id)")
     List<UsuarioFuncionesEntity> sp_obtener_funciones_usuario(

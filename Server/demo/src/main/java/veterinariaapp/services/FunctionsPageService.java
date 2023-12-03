@@ -10,7 +10,7 @@ import java.util.Set;
 import javax.transaction.Transactional;
 
 import veterinariaapp.entities.FunctionsPageEntity.UsuarioFuncionesEntity;
-import veterinariaapp.repositories.FunctionsPageRepository.ObtenerFunciones;;
+import veterinariaapp.repositories.FunctionsPageRepository.ObtenerFunciones;
 
 @Service
 @Transactional
