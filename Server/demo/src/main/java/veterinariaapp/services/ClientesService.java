@@ -38,13 +38,6 @@ public class ClientesService {
     InsertarCliente insertar_cliente;
 
     public void insertar_cliente(InsertarClienteEntity nuevoCliente) {
-        System.out.println("Identificador: " + nuevoCliente.getIdentificador());
-        System.out.println("Nombres: " + nuevoCliente.getNombres());
-        System.out.println("Apellidos: " + nuevoCliente.getApellidos());
-        System.out.println("Celular: " + nuevoCliente.getCelular());
-        System.out.println("Email: " + nuevoCliente.getEmail());
-        System.out.println("Utente Inserimento: " + nuevoCliente.getUtenteInserimento());
-        System.out.println(nuevoCliente);
         try {
             insertar_cliente.sp_insertar_cliente(
                     nuevoCliente.getIdentificador(),
@@ -52,7 +45,7 @@ public class ClientesService {
                     nuevoCliente.getApellidos(),
                     nuevoCliente.getCelular(),
                     nuevoCliente.getEmail(),
-                    nuevoCliente.getUtenteInserimento());
+                    nuevoCliente.getUtente_inserimento());
         } catch (Exception ex) {
             throw ex;
         }

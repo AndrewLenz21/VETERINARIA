@@ -13,7 +13,6 @@ public class InsertarClienteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private String identificador;
     private String nombres;
     private String apellidos;
@@ -67,11 +66,11 @@ public class InsertarClienteEntity {
     }
 
     // utente inserimento
-    public String getUtenteInserimento() {
+    public String getUtente_inserimento() {
         return utente_inserimento;
     }
 
-    public void setUtenteInserimento(String utente_inserimento) {
+    public void setUtente_inserimento(String utente_inserimento) {
         this.utente_inserimento = utente_inserimento;
     }
 }

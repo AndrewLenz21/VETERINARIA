@@ -12,7 +12,11 @@ class appveterinariaserver {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json();
+      // Leer la respuesta como texto y manejar el caso de respuesta vacía o nula
+      const responseText = await response.text();
+      const jsonResponse = responseText ? JSON.parse(responseText) : null;
+
+      return jsonResponse;
     } catch (error) {
       console.error("Error al realizar la solicitud GET:", error);
       throw error;

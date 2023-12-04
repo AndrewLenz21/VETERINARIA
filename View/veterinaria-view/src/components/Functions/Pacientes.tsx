@@ -174,8 +174,14 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
   const eliminar_cliente = (cliente: ClientesEntity) => {
     setTitulo("EDITAR CLIENTE");
     // DEFINIR LAS VARIABLES CON NUESTRA INFORMACION
-    console.log("DNI (identificador):", cliente.identificador);
-    console.log("ID:", cliente.idCliente);
+    const confirmacion = window.confirm(`¿Estás seguro de eliminar el cliente ${cliente.identificador}?\nSe borrarán los registros de la mascota.`);
+    
+    if (confirmacion) {
+        console.log("Cliente eliminado");
+        appveterinariaserver.get(`eliminar_cliente?identificativo=${cliente.identificador}`).then(function(){
+          obtener_clientes();
+        })
+    } 
   };
 
   const agregarCliente = () => {
