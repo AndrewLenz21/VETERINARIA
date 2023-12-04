@@ -42,9 +42,9 @@ const page = (props: Props) => {
       case 5:
         return <Veterinarios />;
       case 6:
-        return <HistorialClinico />;
-      case 7:
         return <GenerarInforme />;
+      case 7:
+        return <HistorialClinico />;
       // Añade casos para otros componentes basándose en el número
     }
   };

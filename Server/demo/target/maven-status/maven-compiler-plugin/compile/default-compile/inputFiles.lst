@@ -1,3 +1,5 @@
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\MascotasController.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entities\MascotasEntity\InsertarMascotaEntity.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\services\LoginService.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\services\UsuarioService.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\ClientesRepository\BuscarClientes.java
@@ -17,11 +19,16 @@ D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\NavBarContro
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\UsuarioController.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\FunctionsPageController.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\LoginRepository\ObtenerAutenticador.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\services\MascotasService.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\MascotasRepository\BuscarMascotas.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\ClientesRepository\EliminarCliente.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\App.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\ClientesController.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\services\NavBarService.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entities\MascotasEntity\Mascotas.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\MascotasRepository\EliminarMascota.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entities\LoginEntity\UsuariopruebaEntity.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\MascotasRepository\InsertarMascota.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\UsuarioRepository.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\ClientesRepository\InsertarCliente.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\services\ClientesService.java
