@@ -21,11 +21,11 @@ public class Mascotas {
     private String sexo;
 
     // id_mascota
-    public Integer getId_mascota() {
+    public Integer getIdMascota() {
         return id_mascota;
     }
 
-    public void setId_mascota(Integer id_mascota) {
+    public void setIdMascota(Integer id_mascota) {
         this.id_mascota = id_mascota;
     }
 

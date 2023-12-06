@@ -1,4 +1,5 @@
 package veterinariaapp.services;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,69 +9,79 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
-import veterinariaapp.entities.UsuarioEntity;
-import veterinariaapp.entities.LoginEntity.UsuariopruebaEntity;
-import veterinariaapp.repositories.UsuarioRepository;
+import veterinariaapp.repositories.UsuariosRepository.BuscarUsuarios;
+import veterinariaapp.repositories.UsuariosRepository.EliminarUsuario;
+import veterinariaapp.repositories.UsuariosRepository.InsertarUsuario;
+import veterinariaapp.repositories.UsuariosRepository.ModificarUsuario;
+import veterinariaapp.entities.UsuariosEntity.InsertarUsuarioEntity;
+import veterinariaapp.entities.UsuariosEntity.ModificarUsuarioEntity;
+import veterinariaapp.entities.UsuariosEntity.UsuarioRegistrado;
 
 @Service
 @Transactional
 public class UsuarioService {
-    @Autowired UsuarioRepository usuarioRepository;
+    @Autowired
+    BuscarUsuarios buscar_usuarios;
 
-    public List<UsuarioEntity> ricerca_tabla_prueba_1(Integer id, String name, String email){
-        List<UsuarioEntity> result = new ArrayList<>();
-        try 
-        {
-            result = usuarioRepository.sp_ricerca_tabla_prueba(id,name, email);
-            return result;
-        } catch (Exception ex)
-        {
+    public List<UsuarioRegistrado> buscar_usuarios(String dni, Integer tipo_usuario) {
+        List<UsuarioRegistrado> usuarios = new ArrayList<>();
+        try {
+            usuarios = buscar_usuarios.sp_obtener_usuarios(dni, tipo_usuario);
+        } catch (Exception ex) {
+            throw ex;
+        }
+        return usuarios;
+    }
+
+    @Autowired
+    InsertarUsuario insertar_usuario;
+
+    public void insertar_usuario(InsertarUsuarioEntity usuario) {
+        try {
+            insertar_usuario.sp_registrar_usuario(
+                    usuario.getIdentificador(),
+                    usuario.getNombres(),
+                    usuario.getApellidos(),
+                    usuario.getCod_tipo_usuario(),
+                    usuario.getRol_especialidad(),
+                    usuario.getEmail(),
+                    usuario.getPassword(),
+                    usuario.getUtente_inserimento());
+        } catch (Exception ex) {
             throw ex;
         }
     }
 
-    public List<UsuarioEntity> ricerca_tabla_prueba_2(UsuariopruebaEntity.FiltroUsuario filtro){
-        List<UsuarioEntity> result = new ArrayList<>();
-        //int id = filtro.getId();
-        //String name = filtro.getName();
-        result = usuarioRepository.sp_ricerca_tabla_prueba(filtro.getId(), filtro.getName(), filtro.getEmail());
-        return result;
-    }
+    @Autowired
+    ModificarUsuario modificar_usuario;
 
-    //FUNCION INSERIMENTO
-    public boolean insertar_persona(String nombre, String email){
+    public void modificar_usuario(ModificarUsuarioEntity usuario) {
         try {
-            System.out.println("We are here on Service!!");
-            usuarioRepository.sp_insertar_persona(nombre, email);
-            return true; // Inserción exitosa
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Inserción fatal error");
-            return false; // Inserción fallida
+            modificar_usuario.sp_actualizar_usuario(
+                    usuario.getId_usuario(),
+                    usuario.getId_credenciales(),
+                    usuario.getId_especialidad(),
+                    usuario.getDni(),
+                    usuario.getNombres(),
+                    usuario.getApellidos(),
+                    usuario.getCod_tipo_usuario(),
+                    usuario.getRol_especialidad(),
+                    usuario.getEmail(),
+                    usuario.getPassword(),
+                    usuario.getUtente_modificacion());
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 
-    public String actualizar_persona(UsuariopruebaEntity.FiltroUsuario filtro){
-        String message = "";
-        try {
-            System.out.println(filtro);
-            usuarioRepository.sp_actualizar_persona(filtro.getId(), filtro.getName(), filtro.getEmail());
-            message = "Persona actualizada con exito";
-        } catch (Exception e) {
-            message = "Error actualizando persona: " + e.getMessage();
-        }
-        return message;
-    }
+    @Autowired
+    EliminarUsuario eliminar_usuario;
 
-    public String eliminar_persona(Integer id){
-        String message = "";
+    public void eliminar_usuario(Integer id_usuario, Integer id_credenciales, Integer id_rol_especialidad) {
         try {
-            usuarioRepository.sp_eliminar_persona(id);
-            message = "Persona eliminada con exito";
-        } catch (Exception e) {
-            message = "Error eliminando persona: " + e.getMessage();
+            eliminar_usuario.sp_borrar_usuario(id_usuario, id_credenciales, id_rol_especialidad);
+        } catch (Exception ex) {
+            throw ex;
         }
-        return message;
     }
-
 }

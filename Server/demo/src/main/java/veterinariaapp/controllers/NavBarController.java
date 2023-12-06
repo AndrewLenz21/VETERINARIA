@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import veterinariaapp.entities.UsuarioEntity;
 import veterinariaapp.entities.NavBarEntity.InformacionEntity;
-import veterinariaapp.services.UsuarioService;
 import veterinariaapp.services.NavBarService;
 
 import org.springframework.beans.factory.annotation.Autowired;

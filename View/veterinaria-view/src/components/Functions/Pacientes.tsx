@@ -86,7 +86,6 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
   };
 
   const guardarInfoClienteModal = () => {
-    setClienteModalIsOpen(false);
     // usemos titulo para agregar o modificar
     if (titulo == "AGREGAR CLIENTE") {
       console.log("Estamos aca");
@@ -95,6 +94,9 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
     if (titulo == "EDITAR CLIENTE") {
       modificar_cliente();
     }
+  };
+
+  const vaciarElementosModalCliente = () => {
     // VACIAR LOS RESULTADOS
     setId(0);
     setDni("");
@@ -102,7 +104,7 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
     setApellidos("");
     setCelular("");
     setEmail("");
-  };
+  }
 
   useEffect(() => {
     obtener_clientes();
@@ -126,24 +128,34 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
 
   const insertar_cliente = async () => {
     try {
-      console.log(dni, nombres, apellidos, celular, email, dni.length);
       if (dni && nombres && apellidos && celular && email && dni.length == 8) {
-        //DEFINIMOS NEUSTRO OBJETO
-        const cliente = new InsertarClienteEntity();
-        cliente.identificador = dni;
-        cliente.nombres = nombres;
-        cliente.apellidos = apellidos;
-        cliente.celular = celular;
-        cliente.email = email;
-        cliente.utente_inserimento = autenticador;
+        //VERIFICAR EXISTENCIA DEL CLIENTE
+        const path = `obtener_clientes?dni=${dni}`;
+        const data = await appveterinariaserver.get(path);
 
-        console.log(cliente);
-        appveterinariaserver
-          .post("insertar_cliente", cliente)
-          .then(function () {
-            // LUEGO DE INSERTAR EL CLIENTE, HACER LA BUSQUEDA
-            obtener_clientes();
-          });
+        if (data.length > 0) {
+          // Cliente ya existe, mostrar mensaje de alerta
+          alert("Cliente ya existente");
+        } else {
+          //DEFINIMOS NEUSTRO OBJETO
+          const cliente = new InsertarClienteEntity();
+          cliente.identificador = dni;
+          cliente.nombres = nombres;
+          cliente.apellidos = apellidos;
+          cliente.celular = celular;
+          cliente.email = email;
+          cliente.utente_inserimento = autenticador;
+
+          console.log(cliente);
+          appveterinariaserver
+            .post("insertar_cliente", cliente)
+            .then(function () {
+              // LUEGO DE INSERTAR EL CLIENTE, HACER LA BUSQUEDA
+              obtener_clientes();
+              closeClienteModal();
+              vaciarElementosModalCliente();
+            });
+        }
       }
     } catch (error) {
       console.error("Error al realizar la solicitud POST:", error);
@@ -162,11 +174,14 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
       //LLAMADA POST
       appveterinariaserver.post("modificar_cliente", cliente).then(function () {
         obtener_clientes();
+        closeClienteModal();
+        vaciarElementosModalCliente();
       });
     } catch (error) {
       console.error("Error al realizar la solicitud GET:", error);
     }
   };
+  // LLENAR LOS INPUTS AL ABRIR MODAL
   const editar_cliente = (cliente: ClientesEntity) => {
     setTitulo("EDITAR CLIENTE");
     // DEFINIR LAS VARIABLES CON NUESTRA INFORMACION
@@ -183,7 +198,6 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
   };
 
   const eliminar_cliente = (cliente: ClientesEntity) => {
-    setTitulo("EDITAR CLIENTE");
     // DEFINIR LAS VARIABLES CON NUESTRA INFORMACION
     const confirmacion = window.confirm(
       `¿Estás seguro de eliminar el cliente ${cliente.identificador}?\nSe borrarán los registros de la mascota.`
@@ -223,7 +237,7 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
       if (identificador || identificador.length == 8) {
         const path = `obtener_mascotas?dni=${identificador}`;
         const data = await appveterinariaserver.get(path);
-        console.log("Estas son las mascotas: ",data);
+        console.log("Estas son las mascotas: ", data);
         setMascotas(data);
         Modal.setAppElement("#root");
       }
@@ -271,16 +285,14 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
     }
   };
   const eliminar_mascota = (mascota: MascotasEntity, id_mascota: number) => {
-    console.log(mascota)
-      console.log(id_mascota)
+    console.log(mascota);
+    console.log(id_mascota);
     try {
       const confirmacion = window.confirm(
         `¿Estás seguro de eliminar la mascota ${mascota.nombre} del cliente ${nombres}?`
       );
 
-      
       if (confirmacion) {
-        
         appveterinariaserver
           .get(`eliminar_mascota?id_mascota=${id_mascota}`)
           .then(function () {
@@ -483,7 +495,9 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
                           </td>
                           <td className="px-4 py-2 flex justify-center space-x-3">
                             <button
-                              onClick={() => eliminar_mascota(mascota, mascota.idMascota)}
+                              onClick={() =>
+                                eliminar_mascota(mascota, mascota.idMascota)
+                              }
                               className="text-white font-bold py-1 px-2 rounded bg-red-500 hover:bg-red-800 ease-in-out duration-300"
                             >
                               Eliminar
@@ -536,7 +550,10 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
                     className="w-full rounded-md border border-[#E9EDF4] py-1 px-3 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none"
                     name="SEXO"
                     value={sexoMascota}
-                    onChange={(event) => {setSexoMascota(event.target.value); console.log(sexoMascota)}}
+                    onChange={(event) => {
+                      setSexoMascota(event.target.value);
+                      console.log(sexoMascota);
+                    }}
                   >
                     <option value="M">M</option>
                     <option value="F">F</option>

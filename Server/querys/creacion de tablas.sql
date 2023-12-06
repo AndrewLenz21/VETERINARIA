@@ -119,6 +119,10 @@ VALUES
     ('Historial Clinico', '71248074')
 ;
 
+UPDATE TIPO_FUNCION
+SET DESC_TIPO_FUNCION = 'Usuarios'
+WHERE COD_TIPO_FUNCION = 4
+
 SELECT * FROM TIPO_FUNCION;
 
 UPDATE TIPO_FUNCION
@@ -210,7 +214,7 @@ INSERT INTO MASCOTAS (IDENTIFICADOR_CLIENTE, NOMBRE_MASCOTA, TIPO_MASCOTA, EDAD,
 VALUES
     ('76355454', 'Rex', 'perro', 2, 'M', '71248074');
 CALL sp_buqueda_cliente('721')
-SELECT * FROM CLIENTES
+SELECT * FROM MASCOTAS
 SELECT * FROM TIPO_FUNCION
 CALL sp_obtener_funciones_usuario(1)
 CALL sp_obtener_info_usuario ('71248074')
@@ -288,6 +292,11 @@ BEGIN
 END//
 DELIMITER ;
 
+SELECT * FROM CLIENTES
+
+DELETE FROM CLIENTES
+WHERE ID_CLIENTE IN (4,5,6,7,8)
+
 -- SP PARA ELIMINAR CLIENTES
 
 DELIMITER //
@@ -301,8 +310,196 @@ BEGIN
     -- Luego eliminamos al cliente
     DELETE FROM CLIENTES WHERE IDENTIFICADOR_CLIENTE = CONCAT(_identificador_cliente);
 END//
-DELIMITER ;
-SELECT * FROM CLIENTES;
 
-DELETE FROM CLIENTES
-WHERE CELULAR = '3425765783'
+-- PROCEDURE PARA BUSCAR LAS MASCOTAS
+DELIMITER //
+CREATE PROCEDURE sp_buscar_mascotas(IN _dni VARCHAR(8))
+BEGIN
+    SELECT
+        ID_MASCOTA AS id_mascota,
+        IDENTIFICADOR_CLIENTE AS identificador,
+        NOMBRE_MASCOTA AS nombre,
+        TIPO_MASCOTA AS tipo,
+        EDAD AS edad,
+        SEXO AS sexo
+    FROM MASCOTAS
+    WHERE IDENTIFICADOR_CLIENTE = CONCAT( _dni);
+END//
+-- DROP PROCEDURE IF EXISTS sp_buscar_mascotas
+CALL sp_buscar_mascotas('77788885');
+
+SELECT * FROM MASCOTAS
+-- SP PARA INSERTAR MASCOTAS
+DELIMITER //
+CREATE PROCEDURE sp_insertar_mascotas(
+    IN _identificador_cliente VARCHAR(8),
+    IN _nombre VARCHAR(200),
+    IN _tipo VARCHAR(200),
+    IN _edad INT,
+    IN _sexo VARCHAR(1),
+    IN _utente_inserimento VARCHAR(8)
+)
+BEGIN
+    INSERT INTO MASCOTAS (
+        IDENTIFICADOR_CLIENTE,
+        NOMBRE_MASCOTA,
+        TIPO_MASCOTA,
+        EDAD,
+        SEXO,
+        UTENTE_INSERCION
+    ) VALUES (
+        _identificador_cliente,
+        _nombre,
+        _tipo,
+        _edad,
+        _sexo,
+        _utente_inserimento
+    );
+END //
+DELIMITER ;
+
+-- SP PARA ELIMINAR MASCOTAS
+
+DELIMITER //
+CREATE PROCEDURE sp_eliminar_mascota(IN _id_mascota INT)
+BEGIN
+DELETE FROM MASCOTAS
+WHERE ID_MASCOTA = _id_mascota;
+END
+//
+DELIMITER ;
+
+-- SECCION USUARIOS
+/*
+PARA LOS USUARIOS TENEMOS LA TABLA
+USUARIOS
+USUARIO_CREDENCIALES
+TIPO_USUARIO
+TIPO_FUNCION
+FUNCIONES_POR_TIPO_USUARIO 
+
+sp_obtener_info_usuario(DNI)
+
+ crear tabla para la especialidad del veterinario
+-- VERIFICAR LA EXISTENCIA DEL USUARIO CON MISMO TIPO DE CUENTA
+*/
+CALL sp_obtener_usuarios('71248074');
+SELECT * FROM USUARIOS;
+SELECT * FROM USUARIO_CREDENCIALES;
+SELECT * FROM FUNCIONES_POR_TIPO_USUARIO;
+
+DELIMITER //
+CREATE PROCEDURE sp_obtener_usuarios(IN _identificador VARCHAR(8))
+BEGIN
+    SELECT 
+        U.ID_USUARIO AS id,
+        U.COD_TIPO_USUARIO AS cod_tipo_usuario,
+        U.NOMBRES AS nombres,
+        U.APELLIDOS AS apellidos,
+        U.IDENTIFICADOR AS autenticador,
+        TIP.DESCRIPCION_TIPO_USUARIO AS desc_tipo_usuario,
+        AUTH.ID_CREDENCIALES AS id_credenciales,
+        AUTH.EMAIL AS email
+    FROM USUARIOS U
+    LEFT JOIN TIPO_USUARIO TIP ON TIP.COD_TIPO_USUARIO = U.COD_TIPO_USUARIO
+    LEFT JOIN USUARIO_CREDENCIALES AUTH ON U.ID_USUARIO = AUTH.ID_USUARIO
+    WHERE (_identificador IS NULL OR U.IDENTIFICADOR LIKE CONCAT('%'+_identificador+'%'));
+END //
+
+CREATE TABLE USUARIOS(
+    ID_USUARIO INT AUTO_INCREMENT PRIMARY KEY,
+    IDENTIFICADOR VARCHAR(8),
+    NOMBRES VARCHAR(200),
+    APELLIDOS VARCHAR(200),
+    COD_TIPO_USUARIO INT,
+    FECHA_INSERCION DATETIME DEFAULT CURRENT_TIMESTAMP, -- fecha por default
+    UTENTE_INSERCION VARCHAR(8)
+);
+CREATE TABLE USUARIO_CREDENCIALES(
+    ID_CREDENCIALES INT AUTO_INCREMENT PRIMARY KEY,
+    ID_USUARIO INT,
+    EMAIL VARCHAR(200),
+    PASSWORD VARCHAR(200),
+    FECHA_INSERCION DATETIME DEFAULT CURRENT_TIMESTAMP, -- fecha por default
+    UTENTE_INSERCION VARCHAR(8)
+);
+
+-- SP PAR REGISTRAR UN NUEVO USUARIO
+DELIMITER //
+CREATE PROCEDURE sp_registrar_usuario(
+    IN _identificador VARCHAR(8),
+    IN _nombres VARCHAR(200),
+    IN _apellidos VARCHAR(200),
+    IN _cod_tipo_usuario INT,
+    IN _email VARCHAR(200),
+    IN _password VARCHAR(200),
+    IN _utente_inserimento VARCHAR(8)
+)
+BEGIN
+    DECLARE usuario_id INT;
+    -- Insertar en la tabla USUARIOS
+    INSERT INTO USUARIOS (IDENTIFICADOR, NOMBRES, APELLIDOS, COD_TIPO_USUARIO, UTENTE_INSERCION)
+    VALUES (_identificador, _nombres, _apellidos, _cod_tipo_usuario, _utente_inserimento);
+    -- Obtener el ID del usuario insertado
+    SELECT ID_USUARIO INTO usuario_id FROM USUARIOS WHERE IDENTIFICADOR = _identificador;
+    -- Insertar en la tabla USUARIO_CREDENCIALES
+    INSERT INTO USUARIO_CREDENCIALES (ID_USUARIO, EMAIL, PASSWORD, UTENTE_INSERCION)
+    VALUES (usuario_id, _email, _password, _utente_inserimento);
+    -- Finalizar la transacción
+    COMMIT;
+END;
+//
+DELIMITER ;
+
+-- para actualizar usuario
+DELIMITER //
+CREATE PROCEDURE sp_actualizar_usuario(
+    IN _id_usuario INT,
+    IN _id_credenciales INT,
+    IN _nombres VARCHAR(200),
+    IN _apellidos VARCHAR(200),
+    IN _cod_tipo_usuario INT,
+    IN _email VARCHAR(200),
+    IN _password VARCHAR(200),
+    IN _utente_modificacion VARCHAR(8)
+)
+BEGIN
+    -- Actualizar en la tabla USUARIOS
+    UPDATE USUARIOS
+    SET NOMBRES = _nombres,
+        APELLIDOS = _apellidos,
+        COD_TIPO_USUARIO = _cod_tipo_usuario,
+        UTENTE_INSERCION = _utente_modificacion
+    WHERE ID_USUARIO = _id_usuario;
+    -- Actualizar en la tabla USUARIO_CREDENCIALES
+    UPDATE USUARIO_CREDENCIALES
+    SET EMAIL = _email,
+        PASSWORD = _password,
+        UTENTE_INSERCION = _utente_modificacion
+    WHERE ID_CREDENCIALES = _id_credenciales;
+    -- Finalizar la transacción
+    COMMIT;
+END;
+//
+DELIMITER ;
+-- PARA ELIMINAR USUARIO
+DELIMITER //
+CREATE PROCEDURE sp_borrar_usuario(
+    IN _id_usuario INT,
+    IN _id_credenciales INT
+)
+BEGIN
+    -- Eliminar en la tabla USUARIO_CREDENCIALES
+    DELETE FROM USUARIO_CREDENCIALES
+    WHERE ID_CREDENCIALES = _id_credenciales;
+    
+    -- Eliminar en la tabla USUARIOS
+    DELETE FROM USUARIOS
+    WHERE ID_USUARIO = _id_usuario;
+    
+    -- Finalizar la transacción
+    COMMIT;
+END;
+//
+DELIMITER ;
+

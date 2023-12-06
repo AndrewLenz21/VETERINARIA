@@ -38,7 +38,7 @@ const page = (props: Props) => {
       case 3:
         return <AgendarCita />;
       case 4:
-        return <Usuario />;
+        return <Usuario autenticador={identificador}/>;
       case 5:
         return <Veterinarios />;
       case 6:
