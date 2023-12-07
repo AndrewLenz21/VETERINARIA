@@ -292,8 +292,10 @@ BEGIN
 END//
 DELIMITER ;
 
-SELECT * FROM CLIENTES
-
+SELECT * FROM CLIENTES;
+SHOW TABLES;
+SHOW PROCEDURE STATUS
+WHERE Db = 'freedb_VeterinariaAPP';
 DELETE FROM CLIENTES
 WHERE ID_CLIENTE IN (4,5,6,7,8)
 
@@ -383,13 +385,13 @@ sp_obtener_info_usuario(DNI)
  crear tabla para la especialidad del veterinario
 -- VERIFICAR LA EXISTENCIA DEL USUARIO CON MISMO TIPO DE CUENTA
 */
-CALL sp_obtener_usuarios('71248074');
+CALL sp_obtener_usuarios(7, null);
 SELECT * FROM USUARIOS;
 SELECT * FROM USUARIO_CREDENCIALES;
 SELECT * FROM FUNCIONES_POR_TIPO_USUARIO;
 
 DELIMITER //
-CREATE PROCEDURE sp_obtener_usuarios(IN _identificador VARCHAR(8))
+CREATE PROCEDURE sp_obtener_usuarios(IN _identificador VARCHAR(8), IN _cod_tipo_usuario INT)
 BEGIN
     SELECT 
         U.ID_USUARIO AS id,
@@ -398,14 +400,20 @@ BEGIN
         U.APELLIDOS AS apellidos,
         U.IDENTIFICADOR AS autenticador,
         TIP.DESCRIPCION_TIPO_USUARIO AS desc_tipo_usuario,
+        ESP.ID_FUNCION AS id_rol_especialidad,
+        ESP.ROL_ESPECIALIDAD AS rol_especialidad,
         AUTH.ID_CREDENCIALES AS id_credenciales,
-        AUTH.EMAIL AS email
+        AUTH.EMAIL AS email,
+		AUTH.PASSWORD AS password
     FROM USUARIOS U
     LEFT JOIN TIPO_USUARIO TIP ON TIP.COD_TIPO_USUARIO = U.COD_TIPO_USUARIO
     LEFT JOIN USUARIO_CREDENCIALES AUTH ON U.ID_USUARIO = AUTH.ID_USUARIO
-    WHERE (_identificador IS NULL OR U.IDENTIFICADOR LIKE CONCAT('%'+_identificador+'%'));
+    LEFT JOIN USUARIO_ROL_ESPECIALIDAD ESP ON ESP.ID_USUARIO = U.ID_USUARIO
+    WHERE (_identificador IS NULL OR U.IDENTIFICADOR LIKE CONCAT(_identificador, '%'))
+    AND (_cod_tipo_usuario IS NULL OR _cod_tipo_usuario = 0 OR U.COD_TIPO_USUARIO = _cod_tipo_usuario);
 END //
-
+DELIMITER ;
+-- DROP PROCEDURE IF EXISTS sp_obtener_usuarios
 CREATE TABLE USUARIOS(
     ID_USUARIO INT AUTO_INCREMENT PRIMARY KEY,
     IDENTIFICADOR VARCHAR(8),
@@ -424,13 +432,25 @@ CREATE TABLE USUARIO_CREDENCIALES(
     UTENTE_INSERCION VARCHAR(8)
 );
 
+SELECT * FROM TIPO_USUARIO
+-- TABLA SOLO PARA LAS FUNCIONES QUE EJERCEN
+CREATE TABLE USUARIO_ROL_ESPECIALIDAD(
+    ID_FUNCION INT AUTO_INCREMENT PRIMARY KEY,
+    ID_USUARIO INT,
+    ROL_ESPECIALIDAD VARCHAR(500),
+    FECHA_INSERCION DATETIME DEFAULT CURRENT_TIMESTAMP, -- fecha por default
+    UTENTE_INSERCION VARCHAR(8)
+);
+
 -- SP PAR REGISTRAR UN NUEVO USUARIO
+DROP PROCEDURE IF EXISTS sp_registrar_usuario
 DELIMITER //
 CREATE PROCEDURE sp_registrar_usuario(
     IN _identificador VARCHAR(8),
     IN _nombres VARCHAR(200),
     IN _apellidos VARCHAR(200),
     IN _cod_tipo_usuario INT,
+    IN _rol_especialidad VARCHAR(500),
     IN _email VARCHAR(200),
     IN _password VARCHAR(200),
     IN _utente_inserimento VARCHAR(8)
@@ -445,6 +465,9 @@ BEGIN
     -- Insertar en la tabla USUARIO_CREDENCIALES
     INSERT INTO USUARIO_CREDENCIALES (ID_USUARIO, EMAIL, PASSWORD, UTENTE_INSERCION)
     VALUES (usuario_id, _email, _password, _utente_inserimento);
+    -- Insertar en la tabla USUARIO_ROL_ESPECIALIDAD
+    INSERT INTO USUARIO_ROL_ESPECIALIDAD(ID_USUARIO, ROL_ESPECIALIDAD, UTENTE_INSERCION)
+    VALUES (usuario_id, _rol_especialidad, _utente_inserimento);
     -- Finalizar la transacción
     COMMIT;
 END;
@@ -452,13 +475,17 @@ END;
 DELIMITER ;
 
 -- para actualizar usuario
+DROP PROCEDURE IF EXISTS sp_actualizar_usuario
 DELIMITER //
 CREATE PROCEDURE sp_actualizar_usuario(
     IN _id_usuario INT,
     IN _id_credenciales INT,
+    IN _id_especialidad INT,
+    IN _dni VARCHAR(8),
     IN _nombres VARCHAR(200),
     IN _apellidos VARCHAR(200),
     IN _cod_tipo_usuario INT,
+    IN _rol_especialidad VARCHAR(500),
     IN _email VARCHAR(200),
     IN _password VARCHAR(200),
     IN _utente_modificacion VARCHAR(8)
@@ -468,6 +495,7 @@ BEGIN
     UPDATE USUARIOS
     SET NOMBRES = _nombres,
         APELLIDOS = _apellidos,
+        IDENTIFICADOR = _dni,
         COD_TIPO_USUARIO = _cod_tipo_usuario,
         UTENTE_INSERCION = _utente_modificacion
     WHERE ID_USUARIO = _id_usuario;
@@ -477,16 +505,22 @@ BEGIN
         PASSWORD = _password,
         UTENTE_INSERCION = _utente_modificacion
     WHERE ID_CREDENCIALES = _id_credenciales;
+    -- Actualizar la tabla USUARIO_ROL_ESPECIALIDAD
+    UPDATE USUARIO_ROL_ESPECIALIDAD
+    SET ROL_ESPECIALIDAD = _rol_especialidad
+    WHERE ID_FUNCION = _id_especialidad;
     -- Finalizar la transacción
     COMMIT;
 END;
 //
 DELIMITER ;
 -- PARA ELIMINAR USUARIO
+
 DELIMITER //
 CREATE PROCEDURE sp_borrar_usuario(
     IN _id_usuario INT,
-    IN _id_credenciales INT
+    IN _id_credenciales INT,
+    IN _id_rol_especialidad INT
 )
 BEGIN
     -- Eliminar en la tabla USUARIO_CREDENCIALES
@@ -496,6 +530,10 @@ BEGIN
     -- Eliminar en la tabla USUARIOS
     DELETE FROM USUARIOS
     WHERE ID_USUARIO = _id_usuario;
+    
+    -- Eliminar en la tabla USUARIO_ROL_ESPECIALIDAD
+    DELETE FROM USUARIO_ROL_ESPECIALIDAD
+    WHERE ID_FUNCION = _id_rol_especialidad;
     
     -- Finalizar la transacción
     COMMIT;

@@ -1,5 +1,7 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import appveterinariaserver from "@/api/appveterinariaserver";
+import { useRouter } from "next/navigation";
 
 type Props = {
   autenticador: string;
@@ -18,6 +20,8 @@ const NavBar: React.FC<Props> = ({
     cod_tipo_usuario: "",
   });
 
+  const router = useRouter();
+  
   useEffect(() => {
     obtener_informacion_usuario();
   }, [autenticador]);
@@ -44,6 +48,8 @@ const NavBar: React.FC<Props> = ({
 
   const signOut = () => {
     console.log("Usuario ha cerrado sesión.");
+    localStorage.removeItem('identifier');
+    router.push('/login');
     // Lógica de cierre de sesión
   };
 

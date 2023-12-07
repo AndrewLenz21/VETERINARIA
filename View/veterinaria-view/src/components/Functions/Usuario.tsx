@@ -260,8 +260,8 @@ const Usuario: React.FC<Props> = ({ autenticador }) => {
           >
             <option value="0"></option>
             <option value="1">Administrador</option>
-            <option value="2">Secretario</option>
-            <option value="3">Veterinario</option>
+            <option value="2">Veterinario</option>
+            <option value="3">Secretario</option>
           </select>
           <button
             onClick={obtener_usuarios}
@@ -375,8 +375,8 @@ const Usuario: React.FC<Props> = ({ autenticador }) => {
                 >
                   <option value="0"></option>
                   <option value="1">Administrador</option>
-                  <option value="2">Secretario</option>
-                  <option value="3">Veterinario</option>
+                  <option value="2">Veterinario</option>
+                  <option value="3">Secretario</option>
                 </select>
                 <label>Email:</label>
                 <input
