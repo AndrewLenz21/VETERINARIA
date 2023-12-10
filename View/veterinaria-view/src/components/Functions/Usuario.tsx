@@ -76,7 +76,6 @@ const Usuario: React.FC<Props> = ({ autenticador }) => {
   const guardarInfoUsuarioModal = () => {
     // usemos titulo para agregar o modificar
     if (titulo == "AGREGAR USUARIO") {
-      console.log("Estamos aca");
       insertar_usuario();
     }
     if (titulo == "EDITAR USUARIO") {

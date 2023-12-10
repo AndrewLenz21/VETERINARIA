@@ -284,7 +284,7 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
       console.error("Error al realizar la solicitud POST:", error);
     }
   };
-  const eliminar_mascota = (mascota: MascotasEntity, id_mascota: number) => {
+  const inhabilitar_mascota = (mascota: MascotasEntity, id_mascota: number) => {
     console.log(mascota);
     console.log(id_mascota);
     try {
@@ -496,11 +496,11 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
                           <td className="px-4 py-2 flex justify-center space-x-3">
                             <button
                               onClick={() =>
-                                eliminar_mascota(mascota, mascota.idMascota)
+                                inhabilitar_mascota(mascota, mascota.idMascota)
                               }
                               className="text-white font-bold py-1 px-2 rounded bg-red-500 hover:bg-red-800 ease-in-out duration-300"
                             >
-                              Eliminar
+                              Inhabilitar
                             </button>
                           </td>
                         </tr>

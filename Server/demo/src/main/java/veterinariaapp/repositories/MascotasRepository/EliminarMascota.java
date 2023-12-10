@@ -15,7 +15,7 @@ import veterinariaapp.entities.MascotasEntity.InsertarMascotaEntity;
 public interface EliminarMascota extends JpaRepository<InsertarMascotaEntity, String> {
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "CALL sp_eliminar_mascota(:_id_mascota)")
+    @Query(nativeQuery = true, value = "CALL sp_desactivar_mascota(:_id_mascota)")
     void sp_eliminar_mascota(
             @Param("_id_mascota") Integer idMascota);
 }
