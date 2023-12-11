@@ -22,6 +22,8 @@ class CitaEntity {
   cod_estado_cita!: number;
   descripcion_estado_cita!: string;
   id_usuario!: number;
+  usuario_apellidos!: string;
+  usuario_nombres!: string;
   id_cliente!: number;
   id_mascota!: number;
   nombre_mascota!: string;
@@ -30,6 +32,8 @@ class CitaEntity {
   fecha_cita!: Date;
   cod_horario_cita!: number;
   descripcion_horario_cita!: string;
+  diagnostico!: string;
+  receta_detalle!: string;
 }
 
 const Veterinarios = (props: Props) => {
@@ -49,18 +53,39 @@ const Veterinarios = (props: Props) => {
   const cerrarVeterinarioModal = () => {
     setVeterinarioModalIsOpen(false);
   };
-  const verCitasVeterinario = (veterinario : UsuarioRegistradoEntity) => {
+  const verCitasVeterinario = (veterinario: UsuarioRegistradoEntity) => {
     Modal.setAppElement("#root");
     abrirVeterinarioModal();
-    setTitulo(`Citas del veterinario ${veterinario.apellidos} ${veterinario.nombres}`);
+    setTitulo(
+      `Citas del veterinario ${veterinario.apellidos} ${veterinario.nombres}`
+    );
     setCitasEncontradas([]);
     // LLAMADA A NUESTRA APLICACION SERVER
     const path = `buscar_citas?dni=&cod_usuario=${veterinario.id}&cod_tipo_estado_cita=1&cod_tipo_horario_cita=`;
-      //console.log(path);
-      appveterinariaserver.get(path).then(function (data) {
-        //console.log("Estas son las citas agendadas: ", data);
-        setCitasEncontradas(data);
-      });
+    //console.log(path);
+    appveterinariaserver.get(path).then(function (data) {
+      //console.log("Estas son las citas agendadas: ", data);
+      setCitasEncontradas(data);
+    });
+    const pathByte = `generar_reporte?dni=&cod_usuario=${veterinario.id}&cod_tipo_estado_cita=1&cod_tipo_horario_cita=`;
+    appveterinariaserver.getByte(pathByte).then(function (data) {
+      //console.log("Estas son las citas agendadas: ", data);
+      const blob = new Blob([data], { type: "application/pdf" });
+
+      // Crear una URL de datos (data URL) para el Blob
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Crear un enlace <a> para descargar el archivo
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = "reporte_veterinaria.pdf"; // Puedes establecer el nombre del archivo aquí
+
+      // Simular un clic en el enlace para iniciar la descarga
+      a.click();
+
+      // Liberar la URL de datos (importante para evitar problemas de memoria)
+      URL.revokeObjectURL(blobUrl);
+    });
   };
   useEffect(() => {
     obtener_veterinarios();
@@ -111,9 +136,7 @@ const Veterinarios = (props: Props) => {
                   <td className="px-4 py-2">{usuario.rol_especialidad}</td>
                   <td className="px-4 py-2 flex justify-center space-x-3">
                     <button
-                      onClick={() =>
-                        verCitasVeterinario(usuario)
-                      }
+                      onClick={() => verCitasVeterinario(usuario)}
                       className="text-white font-bold py-1 px-2 rounded bg-blue-500 hover:bg-blue-800 ease-in-out duration-300"
                     >
                       Revisas Citas Agendadas
@@ -154,8 +177,14 @@ const Veterinarios = (props: Props) => {
                     <tbody className="bg-white">
                       {citasEncontradas.map((cita, index) => (
                         <tr key={`${cita.codigo_cita}_${index}`}>
-                          <td className="px-4 py-2">{cita.fecha_cita ? cita.fecha_cita.toString().substring(0, 10) : ''}</td>
-                          <td className="px-4 py-2">{cita.descripcion_horario_cita}</td>
+                          <td className="px-4 py-2">
+                            {cita.fecha_cita
+                              ? cita.fecha_cita.toString().substring(0, 10)
+                              : ""}
+                          </td>
+                          <td className="px-4 py-2">
+                            {cita.descripcion_horario_cita}
+                          </td>
                           <td className="px-4 py-2 text-center">
                             {cita.descripcion_estado_cita}
                           </td>

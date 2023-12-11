@@ -23,6 +23,22 @@ class appveterinariaserver {
     }
   }
 
+  async getByte(path: string) {
+    try {
+      const response = await fetch(`${this.baseUrl}/${path}`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      // Leer la respuesta como un ArrayBuffer (contenido binario)
+      const responseArrayBuffer = await response.arrayBuffer();
+
+      return new Uint8Array(responseArrayBuffer); // Devuelve un arreglo de bytes
+    } catch (error) {
+      console.error("Error al realizar la solicitud GET (byte):", error);
+      throw error;
+    }
+  }
+
   async post(path: string, object: any) {
     try {
       const response = await fetch(`${this.baseUrl}/${path}`, {

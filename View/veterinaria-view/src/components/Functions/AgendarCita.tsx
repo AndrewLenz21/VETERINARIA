@@ -44,7 +44,7 @@ class CitaAgendadaEntity {
   id_usuario!: number;
   id_cliente!: number;
   id_mascota!: number;
-  fecha_cita!: string; // Supongo que fecha_cita es una cadena de texto en este contexto
+  fecha_cita!: string;
   cod_tipo_horario_cita!: number;
   usuario_insercion!: string;
   motivo_cita!: string;

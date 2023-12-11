@@ -22,6 +22,7 @@ D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entities\UsuariosEntity\
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\UsuariosRepository\InsertarUsuario.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\ClientesRepository\EliminarCliente.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entities\MascotasEntity\Mascotas.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\HistorialClinicoController.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\UsuarioRepository.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\ClientesRepository\InsertarCliente.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\UsuariosRepository\BuscarUsuarios.java
@@ -32,8 +33,10 @@ D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entities\ClientesEntity\
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entities\MascotasEntity\InsertarMascotaEntity.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\ClientesRepository\BuscarClientes.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\LoginController.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\services\HistorialClinicoService.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\config\CorsConfig.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\LoginRepository\ObtenerCredenciales.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entities\HistorialClinicoEntity\ReporteClinicoDTO.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\AgendarCitaRepository\BuscarHorariosDisponibles.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\UsuarioControllerPrueba.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\AgendarCitaRepository\AgendarNuevaCita.java

@@ -20,6 +20,7 @@ veterinariaapp\repositories\UsuariosRepository\InsertarUsuario.class
 veterinariaapp\services\NavBarService.class
 veterinariaapp\repositories\NavBarRepository\ObtenerInformacion.class
 veterinariaapp\controllers\FunctionsPageController.class
+veterinariaapp\services\HistorialClinicoService.class
 veterinariaapp\repositories\UsuarioRepository.class
 veterinariaapp\entities\ClientesEntity\Clientes.class
 veterinariaapp\entities\LoginEntity\AutenticadorEntity.class
@@ -32,6 +33,7 @@ veterinariaapp\entities\AgendarCitaEntity\HorariosDisponiblesEntity.class
 veterinariaapp\repositories\AgendarCitaRepository\BuscarHorariosDisponibles.class
 veterinariaapp\entities\ClientesEntity\InsertarClienteEntity.class
 veterinariaapp\entities\LoginEntity\UsuariopruebaEntity$FiltroUsuario.class
+veterinariaapp\entities\HistorialClinicoEntity\ReporteClinicoDTO.class
 veterinariaapp\repositories\LoginRepository\ObtenerAutenticador.class
 veterinariaapp\controllers\MascotasController.class
 veterinariaapp\services\FunctionsPageService.class
@@ -42,6 +44,7 @@ veterinariaapp\repositories\UsuariosRepository\EliminarUsuario.class
 veterinariaapp\App.class
 veterinariaapp\repositories\MascotasRepository\InsertarMascota.class
 veterinariaapp\services\UsuarioService.class
+veterinariaapp\controllers\HistorialClinicoController.class
 veterinariaapp\entities\MascotasEntity\Mascotas.class
 veterinariaapp\repositories\FunctionsPageRepository\ObtenerFunciones.class
 veterinariaapp\repositories\LoginRepository\ObtenerCredenciales.class

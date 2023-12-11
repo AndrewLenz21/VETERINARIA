@@ -15,6 +15,8 @@ public class BusquedaCitaEntity {
     private Integer cod_estado_cita;
     private String descripcion_estado_cita;
     private Integer id_usuario;
+    private String usuario_apellidos;
+    private String usuario_nombres;
     private Integer id_cliente;
     private Integer id_mascota;
     private String nombre_mascota;
@@ -23,6 +25,8 @@ public class BusquedaCitaEntity {
     private Date fecha_cita;
     private Integer cod_horario_cita;
     private String descripcion_horario_cita;
+    private String diagnostico;
+    private String receta_detalle;
 
     // Getters y Setters para los campos agregados
 
@@ -48,6 +52,22 @@ public class BusquedaCitaEntity {
 
     public void setCod_estado_cita(Integer cod_estado_cita) {
         this.cod_estado_cita = cod_estado_cita;
+    }
+
+    public String getUsuario_apellidos() {
+        return usuario_apellidos;
+    }
+
+    public void setUsuario_apellidos(String usuario_apellidos) {
+        this.usuario_apellidos = usuario_apellidos;
+    }
+
+    public String getUsuario_nombres() {
+        return usuario_nombres;
+    }
+
+    public void setUsuario_nombres(String usuario_nombres) {
+        this.usuario_nombres = usuario_nombres;
     }
 
     public String getDescripcion_estado_cita() {
@@ -120,5 +140,21 @@ public class BusquedaCitaEntity {
 
     public void setDescripcion_horario_cita(String descripcion_horario_cita) {
         this.descripcion_horario_cita = descripcion_horario_cita;
+    }
+
+    public String getDiagnostico() {
+        return diagnostico;
+    }
+
+    public void setDiagnostico(String diagnostico) {
+        this.diagnostico = diagnostico;
+    }
+
+    public String getReceta_detalle() {
+        return receta_detalle;
+    }
+
+    public void setReceta_detalle(String receta_detalle) {
+        this.receta_detalle = receta_detalle;
     }
 }
