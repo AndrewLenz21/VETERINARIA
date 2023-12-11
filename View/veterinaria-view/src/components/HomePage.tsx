@@ -11,10 +11,6 @@ const HomePage = (props: Props) => {
         <Link href={{ pathname: "/login" }}>
           <p className="bg-white border-2 border-black rounded-md py-5 px-7 text-black hover:bg-gray-400 ease-in-out duration-300">Iniciar Sesion</p>
         </Link>
-        {/* Enlace para ir a la página "seccion_2" */}
-        <Link href={{ pathname: "/register" }}>
-          <p className="bg-white border-2 border-black rounded-md py-5 px-7 text-black hover:bg-gray-400 ease-in-out duration-300">Registrarse(prueba)</p>
-        </Link>
       </div>
     </div>
   );

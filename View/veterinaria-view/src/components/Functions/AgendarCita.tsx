@@ -67,9 +67,7 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
   const [tipoUsuarioFiltro, setTipoUsuarioFiltro] = useState(2);
   const [usuarios, setUsuarios] = useState<UsuarioRegistradoEntity[]>([]);
   // BUSQUEDA HORARIOS DISPONIBLES
-  const [horariosDisponibles, setHorariosDisponibles] = useState<
-    HorariosDisponiblesEntity[]
-  >([]);
+  const [horariosDisponibles, setHorariosDisponibles] = useState<HorariosDisponiblesEntity[]>([]);
   // HORARIO SELECCIONADO
   const [horarioSeleccionadoId, setHorarioSeleccionadoId] = useState(0);
   // SELECCIONADO
@@ -200,7 +198,7 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
     try {
       //console.log(`Mi fecha es la siguiente: ${date}`);
       const fechaFormatoISO = date.toISOString();
-      const fechaFormatoCorrecto = fechaFormatoISO.substring(0, 10);
+      const fechaFormatoCorrecto = fechaFormatoISO.substring(0, 19);
       const path = `horarios_disponibles?fecha=${fechaFormatoCorrecto}&cod_usuario=${veterinarioSeleccionado?.id}`;
       //console.log(path);
       appveterinariaserver.get(path).then(function (data) {
@@ -255,7 +253,7 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
         cita.id_usuario = veterinarioSeleccionado.id;
         cita.id_cliente = cliente.idCliente;
         cita.id_mascota = mascotaSeleccionada.idMascota;
-        cita.fecha_cita = fechaSeleccionada ? fechaSeleccionada.toISOString() : new Date().toISOString();
+        cita.fecha_cita = fechaSeleccionada ? fechaSeleccionada.toISOString().substring(0,19) : new Date().toISOString();
         cita.cod_tipo_horario_cita = horarioSeleccionado.cod_horario;
         cita.usuario_insercion = autenticador;
         cita.motivo_cita = motivoCita;

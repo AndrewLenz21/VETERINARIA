@@ -1,6 +1,6 @@
 package veterinariaapp.repositories.AgendarCitaRepository;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,10 +14,11 @@ import veterinariaapp.entities.AgendarCitaEntity.BusquedaCitaEntity;
 public interface BuscarCitas extends JpaRepository<BusquedaCitaEntity, Integer> {
 
     @Transactional
-    @Query(nativeQuery = true, value = "CALL sp_obtener_citas(:_identificador_cliente, :_cod_usuario, :_cod_tipo_estado_cita, :_cod_tipo_horario_cita)")
+    @Query(nativeQuery = true, value = "CALL sp_obtener_citas(:_identificador_cliente, :_cod_usuario, :_cod_tipo_estado_cita, :_cod_tipo_horario_cita, :_fecha_cita)")
     List<BusquedaCitaEntity> sp_obtener_citas(
             @Param("_identificador_cliente") String id_cliente,
             @Param("_cod_usuario") Integer id_usuario,
             @Param("_cod_tipo_estado_cita") Integer cod_estado_cita,
-            @Param("_cod_tipo_horario_cita") Integer cod_horario_cita);
+            @Param("_cod_tipo_horario_cita") Integer cod_horario_cita,
+            @Param("_fecha_cita") java.util.Date fecha);
 }

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 
 @Service
 public class HistorialClinicoService {
@@ -31,10 +32,11 @@ public class HistorialClinicoService {
         this.resourceLoader = resourceLoader;
     }
 
-    public byte[] generarReporte(String idCliente, Integer idUsuario, Integer codEstadoCita, Integer codHorarioCita) {
+    public byte[] generarReporte(String idCliente, Integer idUsuario, Integer codEstadoCita, Integer codHorarioCita,
+            Date fecha) {
         try {
             List<BusquedaCitaEntity> entidades = buscarCitas.sp_obtener_citas(idCliente, idUsuario, codEstadoCita,
-                    codHorarioCita);
+                    codHorarioCita, fecha);
 
             List<ReporteClinicoDTO> reporteClinicoDTOList = entidades.stream()
                     .map(ReporteClinicoDTO::fromEntity)
@@ -42,16 +44,19 @@ public class HistorialClinicoService {
             // reporteClinicoDTOList.forEach(System.out::println);
             InputStream jasperStream = null;
             try {
+                // UBICA EL ARCHIVO JRXML
                 jasperStream = resourceLoader.getResource("classpath:veterinaria.jrxml").getInputStream();
 
             } catch (IOException e) {
                 throw new RuntimeException("Error al leer el archivo JRXML", e);
             }
 
+            // ESCOGE EL ARCHIVO DE COMPILAR
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperStream);
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reporteClinicoDTOList);
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("citasData", new JRBeanCollectionDataSource(reporteClinicoDTOList));
+
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 
             return JasperExportManager.exportReportToPdf(jasperPrint);

@@ -360,18 +360,20 @@ BEGIN
         TIPO_MASCOTA,
         EDAD,
         SEXO,
-        UTENTE_INSERCION
+        UTENTE_INSERCION,
+        ACTIVO
     ) VALUES (
         _identificador_cliente,
         _nombre,
         _tipo,
         _edad,
         _sexo,
-        _utente_inserimento
+        _utente_inserimento,
+        1
     );
 END //
 DELIMITER ;
-
+SELECT * FROM MASCOTAS;
 -- SP PARA ELIMINAR MASCOTAS
 
 DELIMITER //
@@ -384,7 +386,9 @@ END
 //
 DELIMITER ;
 
-SELECT * FROM MASCOTAS;
+SELECT * FROM TIPO_FUNCION;
+
+
 
 ALTER TABLE MASCOTAS
 ADD ACTIVO BOOLEAN;
@@ -632,7 +636,7 @@ BEGIN
 END $$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS sp_verificar_disponibilidad
+DROP PROCEDURE IF EXISTS sp_verificar_disponibilidad;
 
 CREATE TABLE ANALISIS_CITA_INFORME(
 	COD_ANALISIS_CITA_INFORME INT AUTO_INCREMENT PRIMARY KEY,
@@ -688,8 +692,10 @@ DELIMITER ;
 
 SELECT * FROM TIPO_ESTADO_CITA;
 SELECT * FROM TIPO_HORARIO_CITA;
-SELECT * FROM CITAS_AGENDADAS;
+SELECT * FROM CITAS_AGENDADAS
+WHERE FECHA_CITA > '20231211';
 SELECT * FROM ANALISIS_CITA_INFORME;
+
 
 SELECT 
 	C.COD_CITA
@@ -717,13 +723,16 @@ CREATE PROCEDURE sp_obtener_citas(
 	IN _identificador_cliente VARCHAR(8)
     , IN _cod_usuario INT
     , IN _cod_tipo_estado_cita INT
-    , IN _cod_tipo_horario_cita INT)
+    , IN _cod_tipo_horario_cita INT
+    , IN _fecha_cita DATETIME)
 BEGIN
     SELECT 
 		C.COD_CITA AS codigo_cita
 		, C.COD_TIPO_ESTADO_CITA AS cod_estado_cita
 		, TC.DESCRIPCION_TIPO_ESTADO_CITA AS descripcion_estado_cita
 		, C.ID_USUARIO AS id_usuario
+        , US.APELLIDOS AS usuario_apellidos
+        , US.NOMBRES AS usuario_nombres
 		, C.ID_CLIENTE AS id_cliente
         , C.ID_MASCOTA AS id_mascota
         , M.NOMBRE_MASCOTA AS nombre_mascota
@@ -732,25 +741,54 @@ BEGIN
 		, C.FECHA_CITA AS fecha_cita
 		, C.COD_TIPO_HORARIO_CITA AS cod_horario_cita
 		, TH.DESCRIPCION_TIPO_HORARIO_CITA AS descripcion_horario_cita
+        , AN.DIAGNOSTICO AS diagnostico
+        , AN.RECETA_DETALLE AS receta_detalle
 	FROM CITAS_AGENDADAS C
 	LEFT JOIN TIPO_ESTADO_CITA TC ON TC.COD_TIPO_ESTADO_CITA = C.COD_TIPO_ESTADO_CITA
 	LEFT JOIN TIPO_HORARIO_CITA TH ON TH.COD_TIPO_HORARIO_CITA = C.COD_TIPO_HORARIO_CITA
 	LEFT JOIN CLIENTES CLI ON CLI.ID_CLIENTE = C.ID_CLIENTE 
     LEFT JOIN MASCOTAS M ON M.IDENTIFICADOR_CLIENTE = CLI.IDENTIFICADOR_CLIENTE
 	LEFT JOIN USUARIOS US ON US.ID_USUARIO = C.ID_USUARIO 
+    LEFT JOIN ANALISIS_CITA_INFORME AN ON AN.COD_CITA = C.COD_CITA
     WHERE (_identificador_cliente IS NULL OR US.IDENTIFICADOR LIKE CONCAT(_identificador_cliente, '%'))
-    AND (_cod_usuario IS NULL OR _cod_usuario = 0 OR US.COD_TIPO_USUARIO = _cod_usuario)
+    AND (_cod_usuario IS NULL OR _cod_usuario = 0 OR C.ID_USUARIO = _cod_usuario)
     AND (_cod_tipo_estado_cita IS NULL OR _cod_tipo_estado_cita = 0 OR C.COD_TIPO_ESTADO_CITA = _cod_tipo_estado_cita)
-    AND (_cod_tipo_horario_cita IS NULL OR _cod_tipo_horario_cita = 0 OR C.COD_TIPO_HORARIO_CITA = _cod_tipo_horario_cita);
+    AND (_cod_tipo_horario_cita IS NULL OR _cod_tipo_horario_cita = 0 OR C.COD_TIPO_HORARIO_CITA = _cod_tipo_horario_cita)
+    AND (_fecha_cita IS NULL OR DATE(C.FECHA_CITA) = DATE(_fecha_cita))
+    GROUP BY C.COD_CITA;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS sp_obtener_citas;
+SELECT * FROM TIPO_ESTADO_CITA;
+CALL sp_obtener_citas(null, 2 , 1, null, null);
 
-CALL sp_obtener_citas(null, 2 , null, null);
+SELECT 
+		C.COD_CITA AS codigo_cita
+		, C.COD_TIPO_ESTADO_CITA AS cod_estado_cita
+		, TC.DESCRIPCION_TIPO_ESTADO_CITA AS descripcion_estado_cita
+		, C.ID_USUARIO AS id_usuario
+        , US.APELLIDOS AS usuario_apellidos
+        , US.NOMBRES AS usuario_nombres
+		, C.ID_CLIENTE AS id_cliente
+        , C.ID_MASCOTA AS id_mascota
+        , M.NOMBRE_MASCOTA AS nombre_mascota
+        , CLI.APELLIDOS AS cliente_apellidos
+        , CLI.NOMBRES AS cliente_nombres
+		, C.FECHA_CITA AS fecha_cita
+		, C.COD_TIPO_HORARIO_CITA AS cod_horario_cita
+		, TH.DESCRIPCION_TIPO_HORARIO_CITA AS descripcion_horario_cita
+        , AN.DIAGNOSTICO AS diagnostico
+        , AN.RECETA_DETALLE AS receta_detalle
+	FROM CITAS_AGENDADAS C
+	LEFT JOIN TIPO_ESTADO_CITA TC ON TC.COD_TIPO_ESTADO_CITA = C.COD_TIPO_ESTADO_CITA
+	LEFT JOIN TIPO_HORARIO_CITA TH ON TH.COD_TIPO_HORARIO_CITA = C.COD_TIPO_HORARIO_CITA
+	LEFT JOIN CLIENTES CLI ON CLI.ID_CLIENTE = C.ID_CLIENTE 
+    LEFT JOIN MASCOTAS M ON M.IDENTIFICADOR_CLIENTE = CLI.IDENTIFICADOR_CLIENTE
+	LEFT JOIN USUARIOS US ON US.ID_USUARIO = C.ID_USUARIO 
+    LEFT JOIN ANALISIS_CITA_INFORME AN ON AN.COD_CITA = C.COD_CITA
+    GROUP BY C.COD_CITA;
 
-SELECT * FROM USUARIOS;
-SELECT * FROM TIPO_HORARIO_CITA;
+CALL sp_verificar_disponibilidad (null,null);
 
-INSERT INTO TIPO_HORARIO_CITA(DESCRIPCION_TIPO_HORARIO_CITA, USUARIO_INSERCION)
-VALUES ('','')
+

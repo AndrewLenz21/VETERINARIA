@@ -19,6 +19,7 @@ import veterinariaapp.entities.AgendarCitaEntity.BusquedaCitaEntity;
 import veterinariaapp.entities.AgendarCitaEntity.HorariosDisponiblesEntity;
 import veterinariaapp.services.AgendarCitaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -28,7 +29,7 @@ public class AgendarCitaController {
 
     @GetMapping("/horarios_disponibles")
     public ResponseEntity<List<HorariosDisponiblesEntity>> getMethodName(
-            @RequestParam(required = false) java.sql.Date fecha,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") java.util.Date fecha,
             @RequestParam(required = false) Integer cod_usuario) {
         List<HorariosDisponiblesEntity> result = agendar_cita.horarios_disponibles(fecha, cod_usuario);
         return ResponseEntity.ok(result);
@@ -43,9 +44,10 @@ public class AgendarCitaController {
     public ResponseEntity<List<BusquedaCitaEntity>> buscar_citas(@RequestParam(required = false) String dni,
             @RequestParam(required = false) Integer cod_usuario,
             @RequestParam(required = false) Integer cod_tipo_estado_cita,
-            @RequestParam(required = false) Integer cod_tipo_horario_cita) {
+            @RequestParam(required = false) Integer cod_tipo_horario_cita,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") java.util.Date fecha) {
         List<BusquedaCitaEntity> result = agendar_cita.buscar_citas(dni, cod_usuario, cod_tipo_estado_cita,
-                cod_tipo_horario_cita);
+                cod_tipo_horario_cita, fecha);
         return ResponseEntity.ok(result);
     }
 

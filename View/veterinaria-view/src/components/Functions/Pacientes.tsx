@@ -368,12 +368,6 @@ const Pacientes: React.FC<Props> = ({ autenticador }) => {
                     >
                       Editar Cliente
                     </button>
-                    <button
-                      onClick={() => eliminar_cliente(cliente)}
-                      className="text-white font-bold py-1 px-2 rounded bg-red-500 hover:bg-red-800 ease-in-out duration-300"
-                    >
-                      Eliminar Cliente
-                    </button>
                   </td>
                 </tr>
               ))}

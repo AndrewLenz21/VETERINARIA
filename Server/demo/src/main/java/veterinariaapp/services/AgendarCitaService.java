@@ -2,6 +2,7 @@ package veterinariaapp.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import net.bytebuddy.implementation.bytecode.Throw;
 import veterinariaapp.entities.AgendarCitaEntity.AgendarNuevaCitaEntity;
@@ -24,7 +25,7 @@ public class AgendarCitaService {
     @Autowired
     BuscarHorariosDisponibles buscar_horarios;
 
-    public List<HorariosDisponiblesEntity> horarios_disponibles(Date fecha, Integer veterinario) {
+    public List<HorariosDisponiblesEntity> horarios_disponibles(java.util.Date fecha, Integer veterinario) {
         List<HorariosDisponiblesEntity> horarios = new ArrayList<>();
         try {
             horarios = buscar_horarios.sp_verificar_disponibilidad(fecha, veterinario);
@@ -62,11 +63,16 @@ public class AgendarCitaService {
     BuscarCitas buscar_citas;
 
     public List<BusquedaCitaEntity> buscar_citas(String dni, Integer cod_usuario, Integer cod_tipo_estado_cita,
-            Integer cod_tipo_horario_cita) {
+            Integer cod_tipo_horario_cita, java.util.Date fecha) {
         List<BusquedaCitaEntity> result = new ArrayList<BusquedaCitaEntity>();
+        System.out.println("dni: " + dni);
+        System.out.println("cod_usuario: " + cod_usuario);
+        System.out.println("cod_tipo_estado_cita: " + cod_tipo_estado_cita);
+        System.out.println("cod_tipo_horario_cita: " + cod_tipo_horario_cita);
+        System.out.println("fecha: " + fecha);
         try {
             result = buscar_citas.sp_obtener_citas(dni, cod_usuario, cod_tipo_estado_cita,
-                    cod_tipo_horario_cita);
+                    cod_tipo_horario_cita, fecha);
         } catch (Exception ex) {
             throw ex;
         }

@@ -30,10 +30,11 @@ public class HistorialClinicoController {
     public ResponseEntity<byte[]> generarReporte(@RequestParam(required = false) String dni,
             @RequestParam(required = false) Integer cod_usuario,
             @RequestParam(required = false) Integer cod_tipo_estado_cita,
-            @RequestParam(required = false) Integer cod_tipo_horario_cita) {
+            @RequestParam(required = false) Integer cod_tipo_horario_cita,
+            @RequestParam(required = false) java.sql.Date fecha) {
         try {
             byte[] reporte = historial_clinico.generarReporte(dni, cod_usuario, cod_tipo_estado_cita,
-                    cod_tipo_horario_cita);
+                    cod_tipo_horario_cita, fecha);
             // System.out.println("Reporte generado:");
             // System.out.println(Arrays.toString(reporte));
             return ResponseEntity.ok()

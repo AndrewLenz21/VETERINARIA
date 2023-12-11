@@ -61,12 +61,13 @@ const Veterinarios = (props: Props) => {
     );
     setCitasEncontradas([]);
     // LLAMADA A NUESTRA APLICACION SERVER
-    const path = `buscar_citas?dni=&cod_usuario=${veterinario.id}&cod_tipo_estado_cita=1&cod_tipo_horario_cita=`;
-    //console.log(path);
+    const path = `buscar_citas?cod_usuario=${veterinario.id}&cod_tipo_estado_cita=1`;
+    console.log(path);
     appveterinariaserver.get(path).then(function (data) {
       //console.log("Estas son las citas agendadas: ", data);
       setCitasEncontradas(data);
     });
+    /*
     const pathByte = `generar_reporte?dni=&cod_usuario=${veterinario.id}&cod_tipo_estado_cita=1&cod_tipo_horario_cita=`;
     appveterinariaserver.getByte(pathByte).then(function (data) {
       //console.log("Estas son las citas agendadas: ", data);
@@ -86,6 +87,7 @@ const Veterinarios = (props: Props) => {
       // Liberar la URL de datos (importante para evitar problemas de memoria)
       URL.revokeObjectURL(blobUrl);
     });
+     */
   };
   useEffect(() => {
     obtener_veterinarios();
