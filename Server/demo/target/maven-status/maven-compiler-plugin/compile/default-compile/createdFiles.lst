@@ -18,7 +18,6 @@ veterinariaapp\repositories\AgendarCitaRepository\BuscarCitas.class
 veterinariaapp\entities\UsuariosEntity\InsertarUsuarioEntity.class
 veterinariaapp\entities\AgendarCitaEntity\BusquedaCitaEntity.class
 veterinariaapp\repositories\UsuariosRepository\InsertarUsuario.class
-veterinariaapp\repositories\AgendarCitaRepository\CancelarCita.class
 veterinariaapp\services\NavBarService.class
 veterinariaapp\repositories\NavBarRepository\ObtenerInformacion.class
 veterinariaapp\controllers\FunctionsPageController.class
@@ -53,6 +52,7 @@ veterinariaapp\repositories\LoginRepository\ObtenerCredenciales.class
 veterinariaapp\repositories\MascotasRepository\BuscarMascotas.class
 veterinariaapp\entities\LoginEntity\ObtenerAutenticadorEntity.class
 veterinariaapp\entities\NavBarEntity\InformacionEntity.class
+veterinariaapp\repositories\AgendarCitaRepository\CancelarCitaRepository.class
 veterinariaapp\config\CorsConfig.class
 veterinariaapp\repositories\AgendarCitaRepository\AgendarNuevaCita.class
 veterinariaapp\repositories\ClientesRepository\InsertarCliente.class

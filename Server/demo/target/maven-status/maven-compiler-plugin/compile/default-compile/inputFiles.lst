@@ -17,7 +17,6 @@ D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\ClientesRep
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\NavBarController.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\UsuariosRepository\EliminarUsuario.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\FunctionsPageController.java
-D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\AgendarCitaRepository\CancelarCita.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\LoginRepository\ObtenerAutenticador.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entities\UsuariosEntity\UsuarioRegistrado.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\UsuariosRepository\InsertarUsuario.java
@@ -46,6 +45,7 @@ D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\services\UsuarioServiceP
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\services\MascotasService.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\MascotasRepository\BuscarMascotas.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\App.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\AgendarCitaRepository\CancelarCitaRepository.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\ClientesController.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entities\UsuariosEntity\ModificarUsuarioEntity.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\services\NavBarService.java

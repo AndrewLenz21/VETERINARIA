@@ -150,7 +150,10 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
     if (veterinarioSeleccionado !== null && fechaSeleccionada) {
       buscar_horarios_disponibles(fechaSeleccionada);
     }
-    verCitasCliente();
+    if (cliente) {
+      verCitasCliente();
+    }
+
     //console.log(autenticador);
   }, [dni_identificador, fechaSeleccionada, veterinarioSeleccionado, cliente]);
 
