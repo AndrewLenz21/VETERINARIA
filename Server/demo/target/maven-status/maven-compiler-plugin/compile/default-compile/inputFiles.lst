@@ -17,6 +17,7 @@ D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\ClientesRep
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\NavBarController.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\UsuariosRepository\EliminarUsuario.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\FunctionsPageController.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\AgendarCitaRepository\CancelarCita.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\LoginRepository\ObtenerAutenticador.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entities\UsuariosEntity\UsuarioRegistrado.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\UsuariosRepository\InsertarUsuario.java

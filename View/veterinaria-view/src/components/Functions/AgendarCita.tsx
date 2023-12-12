@@ -86,7 +86,9 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
   const [tipoUsuarioFiltro, setTipoUsuarioFiltro] = useState(2);
   const [usuarios, setUsuarios] = useState<UsuarioRegistradoEntity[]>([]);
   // BUSQUEDA HORARIOS DISPONIBLES
-  const [horariosDisponibles, setHorariosDisponibles] = useState<HorariosDisponiblesEntity[]>([]);
+  const [horariosDisponibles, setHorariosDisponibles] = useState<
+    HorariosDisponiblesEntity[]
+  >([]);
   // HORARIO SELECCIONADO
   const [horarioSeleccionadoId, setHorarioSeleccionadoId] = useState(0);
   // SELECCIONADO
@@ -96,6 +98,28 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
     useState<UsuarioRegistradoEntity | null>(null);
   const [horarioSeleccionado, setHorarioSeleccionado] =
     useState<HorariosDisponiblesEntity | null>(null);
+  /********************************************** */
+  // MODAL PARA VISUALIIZAR CITAS DEL VETERINARIO
+  const [citasClienteModalOpen, setCitasClienteModalOpen] = useState(false);
+  const abrirCitasClienteModal = () => {
+    setCitasClienteModalOpen(true);
+  };
+  const cerrarCitasClienteModal = () => {
+    setCitasClienteModalOpen(false);
+  };
+  const verCitasCliente = () => {
+    Modal.setAppElement("#root");
+    abrirCitasClienteModal();
+    setCitasEncontradas([]);
+    // LLAMADA A NUESTRA APLICACION SERVER
+    const path = `buscar_citas?dni=${cliente?.identificador}&cod_tipo_estado_cita=1`;
+    console.log(path);
+    appveterinariaserver.get(path).then(function (data) {
+      console.log("Estas son las citas agendadas: ", data);
+      setCitasEncontradas(data);
+    });
+  };
+  /******************************************************* */
   // CLIENTE SINGULAR
   const [cliente, setCliente] = useState<ClientesEntity | null>(null);
   const [dni_identificador, setDniIdentificador] = useState("");
@@ -107,8 +131,10 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
   const closeAgendarCitaModal = () => {
     setCitaModalIsOpen(false);
   };
+  const [citasEncontradas, setCitasEncontradas] = useState<CitaEntity[]>([]);
   // TITULO DE LA MODAL AGENDAR CITA
   const [titulo, setTitulo] = useState("");
+  const [tituloCita, setTituloCitas] = useState("");
   // INFORMACION DEL CLIENTE
   const [id, setId] = useState(0);
   const [dni, setDni] = useState("");
@@ -124,8 +150,9 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
     if (veterinarioSeleccionado !== null && fechaSeleccionada) {
       buscar_horarios_disponibles(fechaSeleccionada);
     }
+    verCitasCliente();
     //console.log(autenticador);
-  }, [dni_identificador, fechaSeleccionada, veterinarioSeleccionado]);
+  }, [dni_identificador, fechaSeleccionada, veterinarioSeleccionado, cliente]);
 
   // SECCION CLIENTES
   const obtener_clientes = async () => {
@@ -164,6 +191,20 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
     setNombres(cliente.nombres);
     openAgendarCitaModal();
     // VACIAR LOS INPUTS
+  };
+
+  const ver_citas_cliente = (cliente: ClientesEntity) => {
+    setCitasEncontradas([]);
+    setCliente(cliente);
+    setTituloCitas(`Citas agendadas para: ${cliente.nombres}`);
+  };
+
+  const cancelar_cita = (cod_cita: number) => {
+    const path = `cancelar_cita?cod_cita=${cod_cita}`;
+    console.log(path);
+    appveterinariaserver.get(path).then(function () {
+      verCitasCliente();
+    });
   };
   const obtener_mascotas = async (identificador: string) => {
     //console.log("Identificador:", autenticador);
@@ -272,20 +313,19 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
         cita.id_usuario = veterinarioSeleccionado.id;
         cita.id_cliente = cliente.idCliente;
         cita.id_mascota = mascotaSeleccionada.idMascota;
-        cita.fecha_cita = fechaSeleccionada ? fechaSeleccionada.toISOString().substring(0,19) : new Date().toISOString();
+        cita.fecha_cita = fechaSeleccionada
+          ? fechaSeleccionada.toISOString().substring(0, 19)
+          : new Date().toISOString();
         cita.cod_tipo_horario_cita = horarioSeleccionado.cod_horario;
         cita.usuario_insercion = autenticador;
         cita.motivo_cita = motivoCita;
         cita.observaciones_cliente = observacionesCliente;
 
         // AGENDAR LA CITA
-        appveterinariaserver
-            .post("agendar_cita", cita)
-            .then(function () {
-              // LUEGO DE INSERTAR EL CLIENTE, HACER LA BUSQUEDA
-              closeAgendarCitaModal();
-            });
-
+        appveterinariaserver.post("agendar_cita", cita).then(function () {
+          // LUEGO DE INSERTAR EL CLIENTE, HACER LA BUSQUEDA
+          closeAgendarCitaModal();
+        });
       }
     } else {
       // Alguno de los campos no está valorizado, muestra una alerta.
@@ -343,6 +383,12 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
                       className="text-white font-bold py-1 px-2 rounded bg-green-600 hover:bg-green-800 ease-in-out duration-300"
                     >
                       Agendar Cita
+                    </button>
+                    <button
+                      onClick={() => ver_citas_cliente(cliente)}
+                      className="text-white font-bold py-1 px-2 rounded bg-green-600 hover:bg-green-800 ease-in-out duration-300"
+                    >
+                      Ver Citas
                     </button>
                   </td>
                 </tr>
@@ -574,6 +620,65 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
                 >
                   Cerrar
                 </button>
+              </div>
+            </div>
+          </Modal>
+          <Modal
+            isOpen={citasClienteModalOpen}
+            onRequestClose={cerrarCitasClienteModal}
+            contentLabel="Agregar Cliente"
+            className="flex items-center justify-center z-50"
+          >
+            <div className="bg-gray-200 text-black p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md space-y-5">
+              <h2 className="text-2xl font-mono text-center w-[800px]">
+                {tituloCita && tituloCita.length > 0 && <>{tituloCita}</>}
+              </h2>
+              <div>
+                {citasEncontradas.length > 0 ? (
+                  <table className="w-full text-sm text-left text-gray-500">
+                    <thead className="bg-gray-700 text-white">
+                      <tr className="text-[20px]">
+                        <th className="px-5 py-3">FECHA</th>
+                        <th className="px-5 py-3">HORARIO</th>
+                        <th className="px-5 py-3">ESTADO CITA</th>
+                        <th className="px-7 py-3">MASCOTA</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white">
+                      {citasEncontradas.map((cita, index) => (
+                        <tr key={`${cita.codigo_cita}_${index}`}>
+                          <td className="px-4 py-2">
+                            {cita.fecha_cita
+                              ? cita.fecha_cita.toString().substring(0, 10)
+                              : ""}
+                          </td>
+                          <td className="px-4 py-2">
+                            {cita.descripcion_horario_cita}
+                          </td>
+                          <td className="px-4 py-2 text-center">
+                            {cita.descripcion_estado_cita}
+                          </td>
+                          <td className="px-4 py-2 text-center">
+                            {cita.nombre_mascota}
+                          </td>
+                          <td>
+                            <button
+                              className="text-white font-bold py-1 px-2 rounded bg-red-500 hover:bg-red-800 ease-in-out duration-300"
+                              onClick={() => cancelar_cita(cita.codigo_cita)}
+                            >
+                              Cancelar Cita
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p className="text-center text-red-500 my-8">
+                    Cliente sin citas agendadas
+                  </p>
+                )}
               </div>
             </div>
           </Modal>

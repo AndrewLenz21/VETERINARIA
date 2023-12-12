@@ -58,4 +58,9 @@ public class AgendarCitaController {
         agendar_cita.generar_diagnostico(cod_cita, diagnostico, receta);
     }
 
+    @GetMapping("/cancelar_cita")
+    public void cancelar_cita(@RequestParam(required = false) Integer cod_cita) {
+        agendar_cita.cancelar_cita(cod_cita);
+    }
+
 }

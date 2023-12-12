@@ -12,6 +12,7 @@ import veterinariaapp.repositories.AgendarCitaRepository.AgendarNuevaCita;
 import veterinariaapp.repositories.AgendarCitaRepository.BuscarCitas;
 import veterinariaapp.repositories.AgendarCitaRepository.BuscarHorariosDisponibles;
 import veterinariaapp.repositories.AgendarCitaRepository.GenerarDiagnosticoRepository;
+import veterinariaapp.repositories.AgendarCitaRepository.CancelarCitaRepository;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -81,6 +82,17 @@ public class AgendarCitaService {
     public void generar_diagnostico(Integer cod_cita, String diagnostico, String receta_detalle) {
         try {
             generar_diagnostico.registrarReporteCita(cod_cita, diagnostico, receta_detalle);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    @Autowired
+    CancelarCitaRepository cancelar_cita;
+
+    public void cancelar_cita(Integer cod_cita) {
+        try {
+            cancelar_cita.sp_cancelar_cita(cod_cita);
         } catch (Exception ex) {
             throw ex;
         }
