@@ -67,27 +67,6 @@ const Veterinarios = (props: Props) => {
       //console.log("Estas son las citas agendadas: ", data);
       setCitasEncontradas(data);
     });
-    /*
-    const pathByte = `generar_reporte?dni=&cod_usuario=${veterinario.id}&cod_tipo_estado_cita=1&cod_tipo_horario_cita=`;
-    appveterinariaserver.getByte(pathByte).then(function (data) {
-      //console.log("Estas son las citas agendadas: ", data);
-      const blob = new Blob([data], { type: "application/pdf" });
-
-      // Crear una URL de datos (data URL) para el Blob
-      const blobUrl = URL.createObjectURL(blob);
-
-      // Crear un enlace <a> para descargar el archivo
-      const a = document.createElement("a");
-      a.href = blobUrl;
-      a.download = "reporte_veterinaria.pdf"; // Puedes establecer el nombre del archivo aquí
-
-      // Simular un clic en el enlace para iniciar la descarga
-      a.click();
-
-      // Liberar la URL de datos (importante para evitar problemas de memoria)
-      URL.revokeObjectURL(blobUrl);
-    });
-     */
   };
   useEffect(() => {
     obtener_veterinarios();

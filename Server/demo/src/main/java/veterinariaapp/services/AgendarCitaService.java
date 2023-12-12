@@ -11,6 +11,7 @@ import veterinariaapp.entities.AgendarCitaEntity.HorariosDisponiblesEntity;
 import veterinariaapp.repositories.AgendarCitaRepository.AgendarNuevaCita;
 import veterinariaapp.repositories.AgendarCitaRepository.BuscarCitas;
 import veterinariaapp.repositories.AgendarCitaRepository.BuscarHorariosDisponibles;
+import veterinariaapp.repositories.AgendarCitaRepository.GenerarDiagnosticoRepository;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -65,11 +66,6 @@ public class AgendarCitaService {
     public List<BusquedaCitaEntity> buscar_citas(String dni, Integer cod_usuario, Integer cod_tipo_estado_cita,
             Integer cod_tipo_horario_cita, java.util.Date fecha) {
         List<BusquedaCitaEntity> result = new ArrayList<BusquedaCitaEntity>();
-        System.out.println("dni: " + dni);
-        System.out.println("cod_usuario: " + cod_usuario);
-        System.out.println("cod_tipo_estado_cita: " + cod_tipo_estado_cita);
-        System.out.println("cod_tipo_horario_cita: " + cod_tipo_horario_cita);
-        System.out.println("fecha: " + fecha);
         try {
             result = buscar_citas.sp_obtener_citas(dni, cod_usuario, cod_tipo_estado_cita,
                     cod_tipo_horario_cita, fecha);
@@ -77,6 +73,17 @@ public class AgendarCitaService {
             throw ex;
         }
         return result;
+    }
+
+    @Autowired
+    GenerarDiagnosticoRepository generar_diagnostico;
+
+    public void generar_diagnostico(Integer cod_cita, String diagnostico, String receta_detalle) {
+        try {
+            generar_diagnostico.registrarReporteCita(cod_cita, diagnostico, receta_detalle);
+        } catch (Exception ex) {
+            throw ex;
+        }
     }
 
 }

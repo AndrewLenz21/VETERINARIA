@@ -195,7 +195,19 @@ const GenerarInforme: React.FC<Props> = ({ autenticador }) => {
     Modal.setAppElement("#root");
   };
 
-  const registrarDiagnostico = () => {};
+  const registrarDiagnostico = () => {
+    try {
+      //console.log(`Mi fecha es la siguiente: ${date}`);
+      const path = `generar_diagnostico?cod_cita=${citaSeleccionada?.codigo_cita}&diagnostico=${diagnostico}&receta=${receta}`;
+      //console.log(path);
+      appveterinariaserver.get(path).then(function () {
+        closeModal();
+        obtener_citas();
+      });
+    } catch (error) {
+      console.error("Error al realizar la solicitud GET:", error);
+    }
+  };
   return (
     <div id="root" className="bg-gray-100 md:h-[calc(100vh-80px)] p-8">
       <div className="text-center text-black flex flex-col space-y-5">

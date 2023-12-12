@@ -791,4 +791,26 @@ SELECT
 
 CALL sp_verificar_disponibilidad (null,null);
 
+SELECT * FROM CITAS_AGENDADAS;
+SELECT * FROM ANALISIS_CITA_INFORME;
+
+DELIMITER //
+CREATE PROCEDURE sp_generar_diagnostico_cita(
+    IN _codigo_cita INT,
+    IN _diagnostico VARCHAR(1000),
+    IN _receta_detalle VARCHAR(1000)
+)
+BEGIN
+    UPDATE ANALISIS_CITA_INFORME
+    SET DIAGNOSTICO = _diagnostico,
+        RECETA_DETALLE = _receta_detalle
+    WHERE COD_CITA = _codigo_cita;
+    
+    UPDATE CITAS_AGENDADAS
+    SET COD_TIPO_ESTADO_CITA  = 2
+    WHERE COD_CITA = _codigo_cita;
+    
+END //
+DELIMITER ;
+
 

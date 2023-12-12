@@ -35,6 +35,7 @@ D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\ClientesRep
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\controllers\LoginController.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\services\HistorialClinicoService.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\config\CorsConfig.java
+D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\AgendarCitaRepository\GenerarDiagnosticoRepository.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\LoginRepository\ObtenerCredenciales.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\entities\HistorialClinicoEntity\ReporteClinicoDTO.java
 D:\VETERINARIA\Server\demo\src\main\java\veterinariaapp\repositories\AgendarCitaRepository\BuscarHorariosDisponibles.java

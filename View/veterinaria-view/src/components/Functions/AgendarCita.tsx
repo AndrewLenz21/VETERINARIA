@@ -51,6 +51,25 @@ class CitaAgendadaEntity {
   observaciones_cliente!: string;
 }
 
+class CitaEntity {
+  codigo_cita!: number;
+  cod_estado_cita!: number;
+  descripcion_estado_cita!: string;
+  id_usuario!: number;
+  usuario_apellidos!: string;
+  usuario_nombres!: string;
+  id_cliente!: number;
+  id_mascota!: number;
+  nombre_mascota!: string;
+  cliente_apellidos!: string;
+  cliente_nombres!: string;
+  fecha_cita!: Date;
+  cod_horario_cita!: number;
+  descripcion_horario_cita!: string;
+  diagnostico!: string;
+  receta_detalle!: string;
+}
+
 class HorariosDisponiblesEntity {
   cod_horario!: number;
   descripcion_horario!: string;
