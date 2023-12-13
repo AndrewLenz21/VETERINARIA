@@ -150,7 +150,7 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
     if (veterinarioSeleccionado !== null && fechaSeleccionada) {
       buscar_horarios_disponibles(fechaSeleccionada);
     }
-    if (cliente) {
+    if (cliente && citaModalIsOpen==false) {
       verCitasCliente();
     }
 
@@ -182,6 +182,8 @@ const AgendarCita: React.FC<Props> = ({ autenticador }) => {
     setTitulo(`Agendar cita para: ${cliente.nombres}`);
     // LLAMAR A LA FUNCION QUE OBTIENE LAS MASCOTAS Y MAPEARLAS DENTRO DEL SELECT
     setMascotas([]);
+    setMotivoCita("");
+    setObservacionesCliente("");
     obtener_mascotas(cliente.identificador);
     //VACIAR HORARIOS DISPONIBLES
     setHorariosDisponibles([]);

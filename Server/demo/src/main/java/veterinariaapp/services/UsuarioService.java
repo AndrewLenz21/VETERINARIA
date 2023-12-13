@@ -56,6 +56,18 @@ public class UsuarioService {
     ModificarUsuario modificar_usuario;
 
     public void modificar_usuario(ModificarUsuarioEntity usuario) {
+        System.out.println("Id_usuario: " + usuario.getId_usuario());
+        System.out.println("Id_credenciales: " + usuario.getId_credenciales());
+        System.out.println("Id_especialidad: " + usuario.getId_especialidad());
+        System.out.println("Dni: " + usuario.getDni());
+        System.out.println("Nombres: " + usuario.getNombres());
+        System.out.println("Apellidos: " + usuario.getApellidos());
+        System.out.println("Cod_tipo_usuario: " + usuario.getCod_tipo_usuario());
+        System.out.println("Rol_especialidad: " + usuario.getRol_especialidad());
+        System.out.println("Email: " + usuario.getEmail());
+        System.out.println("Password: " + usuario.getPassword());
+        System.out.println("Utente_modificacion: " + usuario.getUtente_modificacion());
+
         try {
             modificar_usuario.sp_actualizar_usuario(
                     usuario.getId_usuario(),

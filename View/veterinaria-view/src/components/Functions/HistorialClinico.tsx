@@ -220,7 +220,6 @@ const HistorialClinico: React.FC<Props> = ({ autenticador }) => {
               onChange={(date) => {
                 setFechaSeleccionada(date);
               }}
-              minDate={new Date()}
               className="w-full mt-2 rounded-md border border-[#E9EDF4] py-1 px-3 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none"
             />
           </div>
@@ -288,6 +287,7 @@ const HistorialClinico: React.FC<Props> = ({ autenticador }) => {
               <tr className="text-[20px]">
                 <th className="px-5 py-3">FECHA</th>
                 <th className="px-5 py-3">HORARIO</th>
+                <th className="px-5 py-3">VETERINARIO</th>
                 <th className="px-5 py-3">ESTADO CITA</th>
                 <th className="px-7 py-3">CLIENTE</th>
                 <th className="px-7 py-3">MASCOTA</th>
@@ -302,6 +302,9 @@ const HistorialClinico: React.FC<Props> = ({ autenticador }) => {
                       : ""}
                   </td>
                   <td className="px-4 py-2">{cita.descripcion_horario_cita}</td>
+                  <td className="px-4 py-2">
+                    {`${cita.usuario_apellidos} ${cita.usuario_nombres}`}
+                  </td>
                   <td className="px-4 py-2">
                     {cita.descripcion_estado_cita}
                   </td>

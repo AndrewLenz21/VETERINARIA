@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.http.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +32,7 @@ public class HistorialClinicoController {
             @RequestParam(required = false) Integer cod_usuario,
             @RequestParam(required = false) Integer cod_tipo_estado_cita,
             @RequestParam(required = false) Integer cod_tipo_horario_cita,
-            @RequestParam(required = false) java.sql.Date fecha) {
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") java.util.Date fecha) {
         try {
             byte[] reporte = historial_clinico.generarReporte(dni, cod_usuario, cod_tipo_estado_cita,
                     cod_tipo_horario_cita, fecha);

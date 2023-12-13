@@ -33,7 +33,12 @@ public class HistorialClinicoService {
     }
 
     public byte[] generarReporte(String idCliente, Integer idUsuario, Integer codEstadoCita, Integer codHorarioCita,
-            Date fecha) {
+            java.util.Date fecha) {
+        System.out.println("idCliente: " + idCliente);
+        System.out.println("idUsuario: " + idUsuario);
+        System.out.println("codEstadoCita: " + codEstadoCita);
+        System.out.println("codHorarioCita: " + codHorarioCita);
+        System.out.println("fecha: " + fecha);
         try {
             List<BusquedaCitaEntity> entidades = buscarCitas.sp_obtener_citas(idCliente, idUsuario, codEstadoCita,
                     codHorarioCita, fecha);

@@ -180,6 +180,7 @@ const Usuario: React.FC<Props> = ({ autenticador }) => {
       cliente.cod_tipo_usuario = tipo_usuario;
       cliente.rol_especialidad = rol;
       cliente.utente_modificacion = autenticador;
+      console.log(cliente)
       //LLAMADA POST
       appveterinariaserver.post("modificar_usuario", cliente).then(function () {
         obtener_usuarios();

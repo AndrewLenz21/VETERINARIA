@@ -13,7 +13,6 @@ public class ModificarUsuarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Integer id_usuario;
     private Integer id_credenciales;
     private Integer id_especialidad;
